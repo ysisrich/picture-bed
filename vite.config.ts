@@ -1,14 +1,16 @@
-import { defineConfig } from 'vite'
+import { defineConfig,loadEnv  } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import viteCompression from 'vite-plugin-compression'
 
-
+// const mode:string = import.meta.env.MODE
+// const BaseUrl:string = import.meta.env.BASE_URL
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './', //打包路径
+  mode:'',
   plugins: [
     vue(),
     // gzip压缩 生产环境生成 .gz 文件
