@@ -12,11 +12,13 @@
     "axios": "^0.24.0",
     "naive-ui": "^2.23.2",
     "nprogress": "^0.2.0",
+    "pinia": "^2.0.0-rc.10",
     "vfonts": "0.0.3",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@vicons/ionicons5": "^0.11.0",
     "@vitejs/plugin-vue": "^2.0.0",
     "dart-sass": "^1.25.0",
     "sass": "^1.46.0",

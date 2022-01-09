@@ -1,1 +1,9 @@
-$test-color: red;
+
+$main-width:1200px;
+
+@mixin flx($jc,$ai,$fd:row){
+    display: flex;
+    flex-direction: $fd;
+    justify-content: $jc;
+    align-items: $ai;
+}

@@ -41,9 +41,18 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 3000,
-    open: true,
+    open: false,
     https: false,
-    proxy: {}
+    proxy: {
+      // 使用 proxy 实例
+      '/api': {
+          target: 'http://jsonplaceholder.typicode.com',
+          changeOrigin: true,
+          configure: (proxy, options) => {
+            // proxy 是 'http-proxy' 的实例
+          }
+      }
+    }
   },
   // 生产环境去除 console debugger
   build:{
