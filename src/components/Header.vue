@@ -4,15 +4,21 @@
             <div>
                 <img class="head-logo" src="@/assets/img/logo.png" alt="">
             </div>
-            <div>menu</div>
+            <div>
+                <Menu />
+            </div>
         </div>
     </div>     
 </template>
 
 <script>
+
+import Menu from './Menu.vue'
 export default {
     name: 'Header',
-
+    components:{
+        Menu
+    },
     setup() {
         
     }

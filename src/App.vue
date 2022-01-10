@@ -21,7 +21,7 @@
         <n-layout-content content-style="padding: 24px;">
           <router-view />
         </n-layout-content>
-        <n-layout-footer>
+        <n-layout-footer position="absolute">
           <Footer />
         </n-layout-footer>
       </div>
@@ -33,11 +33,10 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-
 import MessageApi from "@/components/naive-ui/MessageApi.vue";
 import DialogApi from "@/components/naive-ui/DialogApi.vue";
 
-
+import Cookie from '@/hooks/Cookie'  
 import { onMounted, ref } from 'vue'
 
 import { 
@@ -74,10 +73,13 @@ export default {
     NLayoutFooter,  
   },
   setup() {
-
+    const theme = Cookie.getCookie('theme')
+    const language = Cookie.getCookie('language')
+    onMounted(()=>{
+    })
     return {
-      darkTheme:'',
-      locale:zhCN,
+      darkTheme:theme=='dark'?darkTheme:null,
+      locale:language=='chinese'?zhCN:enUS,
     }
   }
 }
