@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+import Cookie from '@/hooks/Cookie'
+
 export const useStore = defineStore({
   // id: 必须的，在所有 Store 中唯一
   id: 'myGlobalState',
@@ -8,14 +10,30 @@ export const useStore = defineStore({
     token: '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',
     auth:{
       username: 'ysisrich',
-      password: 'YANGSONG88347600'
-    }
+      password: '***************'
+    },
+	websiteConfig:{
+		theme:Cookie.getCookie('theme') || 'dark',
+		language:Cookie.getCookie('language') || 'chinese'
+	}
   }),
   getters: {
     
   },
   actions: {
-    
+	// 改变 网站主题 语言
+    changeConfig(params){
+		const {key='',value=''} = params
+		if(key != null && key != ''){
+			this.websiteConfig[key] = value
+			Cookie.setCookie(key,value)
+		}
+	},
+	
+	// 登录
+	login(){
+		
+	}
     
   },
 })

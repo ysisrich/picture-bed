@@ -1,12 +1,8 @@
 <template>
     <div class="head">
         <div class="head-menu">
-            <div>
-                <img class="head-logo" src="@/assets/img/logo.png" alt="">
-            </div>
-            <div>
-                <Menu />
-            </div>
+			<img class="head-logo" src="@/assets/img/logo.png" alt="">
+			<Menu />
         </div>
     </div>     
 </template>

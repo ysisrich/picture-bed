@@ -3,7 +3,7 @@
 </template>
   
   <script>
-  import Cookie from '@/hooks/Cookie'  
+  import {useStore} from '@/store/index'  
   import { defineComponent, h, ref } from 'vue'
   import { NIcon } from 'naive-ui'
   import {
@@ -76,6 +76,7 @@
         
     },
     setup () {
+		const store = useStore()
         let activeKey = ref(null)
         const handleUpdateExpandedKeys = value =>{
             // console.log(value)
@@ -89,11 +90,11 @@
             }
             // 切换语言
             else if(value == 'english' || value == 'chinese'){
-                Cookie.setCookie('language',value,7)
+				store.changeConfig({key:'language',value})
             }
             // 切换主题
             else if(value == 'dark' || value == 'light'){
-                Cookie.setCookie('theme',value,7)
+                store.changeConfig({key:'theme',value})
             }
         }
         

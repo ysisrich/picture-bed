@@ -12,7 +12,7 @@
   </n-dialog-provider>
 
   <!-- 内容 -->
-  <n-config-provider :theme="darkTheme" :locale="locale">
+  <n-config-provider :theme="theme === 'dark'?darkTheme:null" :locale="language ==='chinese'?zhCN:null" :theme-overrides="themeOverrides">
     <n-layout >
       <div vertical class="layout">
         <n-layout-header>
@@ -37,14 +37,24 @@ import MessageApi from "@/components/naive-ui/MessageApi.vue";
 import DialogApi from "@/components/naive-ui/DialogApi.vue";
 
 import Cookie from '@/hooks/Cookie'  
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
+import {useStore} from '@/store/index'
 
-// theme
-import {  darkTheme  } from 'naive-ui'
-// locale 
-import { zhCN, enUS } from 'naive-ui'
+// theme locale 
+import { darkTheme, zhCN, enUS } from 'naive-ui'
 
-
+ /**
+   * js 文件下使用这个做类型提示
+   * @type import('naive-ui').GlobalThemeOverrides
+   */
+const themeOverrides = {
+	// common: {
+	//   primaryColor: '#FF0000'
+	// },
+	// Button: {
+	//   textColor: '#FF0000'
+	// }
+}
 export default {
   name:'app',
   components: {
@@ -54,13 +64,18 @@ export default {
     DialogApi,
   },
   setup() {
-    const theme = Cookie.getCookie('theme')
-    const language = Cookie.getCookie('language')
-    onMounted(()=>{
-    })
+	const store = useStore()
+	  
+    const theme = computed(() => store.websiteConfig.theme)
+    const language = computed(() => store.websiteConfig.language)
+    
     return {
-      darkTheme:theme=='dark'?darkTheme:null,
-      locale:language=='chinese'?zhCN:enUS,
+      darkTheme,
+	  zhCN,
+	  enUS,
+      language,
+	  themeOverrides,
+	  theme
     }
   }
 }
