@@ -1,6 +1,16 @@
 
 <template>
-	<n-upload :action="action" accept="image/*" :max="3" :multiple="true" @before-upload="beforeUpload" @finish="finish" :customRequest="customRequest">
+	<n-upload 
+		:action="action"
+	 	accept="image/*" 
+		v-model:file-list="fileList"
+		:max="3" 
+		:multiple="false" 
+		:show-file-list="false"
+		@before-upload="beforeUpload" 
+		@finish="finish" 
+		:customRequest="customRequest"
+	>
 		<n-upload-dragger>
 		  <div style="margin-bottom: 12px;">
 			<n-icon size="50" :depth="3">
@@ -19,7 +29,7 @@
 import { reactive, toRefs } from 'vue'
 import { CloudUploadOutline as CloudUploadOutlineIcon } from '@vicons/ionicons5'
 
-import {getAuthUserAllRepository} from '@/service/api';
+import {createNewFileOrUpdateFile} from '@/service/api';
 
 
 export default {
@@ -30,9 +40,10 @@ export default {
 
     setup() {
 		
-		let data = reactive({
+		let globalData = reactive({
 			action:'',
-			base64File:''
+			base64File:'',
+			fileList:[]
 		})
 		
 		const imgType = ['image/jpeg', 'image/png', 'image/gif', 'image/jpeg','image/x-icon'];
@@ -44,7 +55,7 @@ export default {
         const beforeUpload = ({ file, fileList }) =>{
 			const {name,size,type} = file.file
             // console.log(name,size,type)
-            console.log(file)
+            console.log('文件列表',fileList)
 			
 			if (!imgType.includes(type) || !/\.(jpe?g|png|gif|ico)$/i.test(name)) {
 				$message.error('上传图片仅支持JPG、JPEG、gif、PNG、ico格式！')
@@ -55,13 +66,6 @@ export default {
 				$message.error('上传单张图片大小不能超过2M！')
 				return false
 			}
-			
-			// File转Base64
-			let reader = new FileReader();
-			reader.readAsDataURL(file.file)
-			reader.addEventListener("load", function () {
-			    data.base64File = reader.result
-			}, false);
 			
 			return true
         }
@@ -91,9 +95,37 @@ export default {
 		      onProgress
 		    }) => {
 				const {name,size,type} = file.file
-				if(data.base64File && data.base64File.length>0 ){
+
+				// File转Base64
+				let reader = new FileReader();
+				reader.readAsDataURL(file.file)
+				reader.addEventListener("load", function () {
+					globalData.base64File = reader.result
+
+					let query ={
+						owner:'YsisNo1',
+						repo:'static',
+						path:`${name}`
+					}
+					let params = {
+						message:'git图床提交',
+						content:reader.result.split(',')[1]
+					}
 					
-				}
+					createNewFileOrUpdateFile(params,query).then(res=>{
+						console.log(res)
+						if(res.code == 200){
+							onFinish(res)
+							window.$message.success('上传成功！')
+							const href = `https://cdn.jsdelivr.net/gh/YsisNo1/static/${res.content.path}`
+							console.log(href)
+						}else{
+							onError(res)
+						}
+					})
+
+
+				}, false);
 				
 				
 		    }
@@ -105,7 +137,7 @@ export default {
 		}
 
         return {
-            ...toRefs(data),
+            ...toRefs(globalData),
 			beforeUpload,
 			finish,
 			customRequest

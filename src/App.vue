@@ -11,6 +11,11 @@
     <DialogApi />
   </n-dialog-provider>
 
+  <!-- 浏览器加载进度条 LoadingBar -->
+  <n-loading-bar-provider>
+    <LoadingBarApi />
+  </n-loading-bar-provider>
+
   <!-- 内容 -->
   <n-config-provider :theme="theme === 'dark'?darkTheme:null" :locale="language ==='chinese'?zhCN:null" :theme-overrides="themeOverrides">
     <n-layout >
@@ -35,6 +40,7 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import MessageApi from "@/components/naive-ui/MessageApi.vue";
 import DialogApi from "@/components/naive-ui/DialogApi.vue";
+import LoadingBarApi from "@/components/naive-ui/LoadingBarApi.vue";
 
 import Cookie from '@/hooks/Cookie'  
 import { onMounted, ref, watch, computed } from 'vue'
@@ -62,20 +68,21 @@ export default {
     Footer,
     MessageApi,
     DialogApi,
+    LoadingBarApi
   },
   setup() {
-	const store = useStore()
-	  
+	  const store = useStore()
     const theme = computed(() => store.websiteConfig.theme)
     const language = computed(() => store.websiteConfig.language)
+
     
     return {
       darkTheme,
-	  zhCN,
-	  enUS,
+      zhCN,
+      enUS,
       language,
-	  themeOverrides,
-	  theme
+      themeOverrides,
+      theme
     }
   }
 }

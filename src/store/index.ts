@@ -7,7 +7,7 @@ export const useStore = defineStore({
   id: 'myGlobalState',
   // state: 返回对象的函数
   state: () => ({
-    token: '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',
+    token: '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',
     auth:{
       username: 'ysisrich',
       password: '***************'
@@ -22,10 +22,10 @@ export const useStore = defineStore({
   },
   actions: {
 	// 改变 网站主题 语言
-    changeConfig(params){
+    changeConfig(params:{key:'',value:''}){
 		const {key='',value=''} = params
 		if(key != null && key != ''){
-			this.websiteConfig[key] = value
+			this.websiteConfig[key] = value 
 			Cookie.setCookie(key,value)
 		}
 	},

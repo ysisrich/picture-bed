@@ -57,3 +57,11 @@ export const getUserRepositoryInfo = (params: undefined | object, query: any) =>
  * @description: 列出经过身份验证的用户的存储库 (包括私有和公有仓库)
  */
  export const getAuthUserAllRepository = (params: undefined | object, query: any) => request.get(`/user/repos`, params)
+
+ /**
+ * @author: yangs
+ * @query:  /repos/{owner}/{repo}/contents/{path}
+ * @params {}
+ * @description: 创建新文件或替换存储库中的现有文件
+ */
+  export const createNewFileOrUpdateFile = (params: undefined | object, query: any) => request.put(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)

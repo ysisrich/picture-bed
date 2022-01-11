@@ -1,6 +1,5 @@
 //axios.ts
 import axios, { AxiosRequestConfig } from 'axios'
-import NProgress from 'nprogress'
 
 // 导入 Store， 使用自己的路径
 import { useStore } from "@/store/index";
@@ -49,7 +48,8 @@ const errorCode:object = {
   '401': '对不起，您没有权限访问',
   '403': '禁止访问',
   '422': '验证失败',
-  '404': '资源未找到'
+  '404': '资源未找到',
+  '409':'资源冲突'
 }
 
 // 响应拦截
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
     //   // console.log(res.message)
     // }
 
-    return response
+    return Promise.resolve(response)
   }
   ,
   (error) => {
@@ -71,7 +71,8 @@ axios.interceptors.response.use(
     if(status){
       // @ts-ignore
       $message.error(errorCode[status])
-      return error.response
+      console.log(error.response)
+      return Promise.reject(error.response)
     }
   }
 )
@@ -93,77 +94,97 @@ interface Axios {
 const request: Axios = {
   get(url, params) {
     return new Promise((resolve, reject) => {
-      NProgress.start()
-      axios
-        .get(url, { params })
+      // @ts-ignore
+      window.$loadingBar.start();
+      axios.get(url, { params })
         .then((res) => {
-          NProgress.done()
+          // @ts-ignore
+          window.$loadingBar.end();
+          res.data.code = 200
           resolve(res.data)
         })
         .catch((err) => {
-          NProgress.done()
-          reject(err.data)
+          // @ts-ignore
+          window.$loadingBar.error();
+          err.data.code = 500
+          resolve(err.data)
         })
     })
   },
   post(url, params) {
     return new Promise((resolve, reject) => {
-      NProgress.start()
-      axios
-        .post(url, params)
+      // @ts-ignore
+      window.$loadingBar.start();
+      axios.post(url, params)
         .then((res) => {
-          NProgress.done()
+          // @ts-ignore
+          window.$loadingBar.end();
+          res.data.code = 200
           resolve(res.data)
         })
         .catch((err) => {
-          NProgress.done()
-          reject(err.data)
+          // @ts-ignore
+          window.$loadingBar.error();
+          err.data.code = 500
+          resolve(err.data)
         })
     })
   },
   patch(url, params) {
     return new Promise((resolve, reject) => {
-      NProgress.start()
-      axios
-        .post(url, params)
+      // @ts-ignore
+      window.$loadingBar.start();
+      axios.patch(url, params)
         .then((res) => {
-          NProgress.done()
+          // @ts-ignore
+          window.$loadingBar.end();
+          res.data.code = 200
           resolve(res.data)
         })
         .catch((err) => {
-          NProgress.done()
-          reject(err.data)
+          // @ts-ignore
+          window.$loadingBar.error();
+          err.data.code = 500
+          resolve(err.data)
         })
     })
   },
   put(url, params) {
     return new Promise((resolve, reject) => {
-      NProgress.start()
-      axios
-        .post(url, params)
+      // @ts-ignore
+      window.$loadingBar.start();
+      axios.put(url, params)
         .then((res) => {
-          NProgress.done()
+          // @ts-ignore
+          window.$loadingBar.finish();
+          res.data.code = 200
           resolve(res.data)
         })
         .catch((err) => {
-          NProgress.done()
-          reject(err.data)
+          // @ts-ignore
+          window.$loadingBar.error();
+          err.data.code = 500
+          resolve(err.data)
         })
     })
   },
   delete(url, params) {
     return new Promise((resolve, reject) => {
-      NProgress.start()
-      axios
-        .delete(url, {data:params})
-        .then((res) => {
-          NProgress.done()
-          resolve(res.data)
-        })
-        .catch((err) => {
-          NProgress.done()
-          reject(err.data)
-        })
+      // @ts-ignore
+      window.$loadingBar.start();
+      axios.delete(url, {data:params})
+      .then((res) => {
+        // @ts-ignore
+        window.$loadingBar.end();
+        res.data.code = 200
+        resolve(res.data)
+      })
+      .catch((err) => {
+        // @ts-ignore
+        window.$loadingBar.error();
+        err.data.code = 500
+        resolve(err.data)
+      })
     })
   }
 }
