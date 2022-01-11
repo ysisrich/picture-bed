@@ -39,16 +39,6 @@ import DialogApi from "@/components/naive-ui/DialogApi.vue";
 import Cookie from '@/hooks/Cookie'  
 import { onMounted, ref } from 'vue'
 
-import { 
-  NConfigProvider, 
-  NMessageProvider, 
-  NDialogProvider,
-  NSpace,
-  NLayout,  
-  NLayoutHeader,  
-  NLayoutContent,  
-  NLayoutFooter,  
-} from 'naive-ui'
 // theme
 import {  darkTheme  } from 'naive-ui'
 // locale 
@@ -60,17 +50,8 @@ export default {
   components: {
     Header,
     Footer,
-
     MessageApi,
     DialogApi,
-    NMessageProvider,
-    NDialogProvider,
-    NConfigProvider,
-    NSpace,
-    NLayout,
-    NLayoutHeader,  
-    NLayoutContent,  
-    NLayoutFooter,  
   },
   setup() {
     const theme = Cookie.getCookie('theme')

@@ -1,11 +1,11 @@
 <template>
     <n-menu v-model:value="activeKey" mode="horizontal" :options="menuOptions" @update:value="handleUpdateExpandedKeys"/>
-  </template>
+</template>
   
   <script>
   import Cookie from '@/hooks/Cookie'  
   import { defineComponent, h, ref } from 'vue'
-  import { NIcon,NMenu } from 'naive-ui'
+  import { NIcon } from 'naive-ui'
   import {
     CloudUploadOutline as CloudUploadOutlineIcon,
     LogInOutline as LogInOutlineIcon,
@@ -73,8 +73,7 @@
   export default {
     name:'Menu',
     components:{
-        NIcon,
-        NMenu,
+        
     },
     setup () {
         let activeKey = ref(null)

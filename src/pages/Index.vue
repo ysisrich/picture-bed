@@ -27,27 +27,11 @@ import {getAuthUserAllRepository} from '@/service/api';
 
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 
-import { 
-    NUpload,
-    NIcon,
-    NUploadDragger,
-    NP,
-    NText,
-    NAlert,
-    NSpace
-} from 'naive-ui'
 
 export default {
     name: 'Index',
     components:{
-        NUpload,
-        NIcon,
-        NUploadDragger,
-        ArchiveIcon,
-        NP,
-        NText,
-        NAlert,
-        NSpace
+        ArchiveIcon
     },
 
     setup() {
