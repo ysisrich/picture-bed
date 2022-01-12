@@ -3,7 +3,7 @@
 </template>
   
   <script>
-  import {useStore} from '@/store/index'  
+  import {useSetting} from '@/store/index'  
   import { defineComponent, h, ref } from 'vue'
   import { NIcon } from 'naive-ui'
   import {
@@ -76,7 +76,6 @@
         
     },
     setup () {
-		const store = useStore()
         let activeKey = ref(null)
         const handleUpdateExpandedKeys = value =>{
             // console.log(value)
@@ -90,11 +89,11 @@
             }
             // 切换语言
             else if(value == 'english' || value == 'chinese'){
-				store.changeConfig({key:'language',value})
+				useSetting().changeConfig({key:'language',value})
             }
             // 切换主题
             else if(value == 'dark' || value == 'light'){
-                store.changeConfig({key:'theme',value})
+                useSetting().changeConfig({key:'theme',value})
             }
         }
         

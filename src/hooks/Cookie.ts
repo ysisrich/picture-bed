@@ -11,8 +11,7 @@
       * @param:  cvalue  any cookie值
       * @param:  exdays  number  cookie保存天数
       */
-     setCookie(cname:string, cvalue:any, exdays = 720) 
-     {
+     setCookie(cname:string, cvalue:any, exdays = 365) {
          var d = new Date();
          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
          var expires = "expires=" + d.toUTCString();
@@ -46,7 +45,7 @@
          d.setTime(-1);
          var expires = "expires=" + d.toUTCString();
          document.cookie = cname + "=''; " + expires;
- },
+	},
  }
  export default utils;
  

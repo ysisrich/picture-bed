@@ -2,9 +2,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
 // 导入 Store， 使用自己的路径
-import { useStore } from "@/store/index";
-
-const store = useStore()
+import { useUser } from "@/store/index";
 
 
 
@@ -19,8 +17,8 @@ axios.defaults.headers['Accept'] = 'application/vnd.github.v3+json'
 // 请求拦截
 axios.interceptors.request.use(
   (config): AxiosRequestConfig<any> => {
-    const token:string = store.token
-    const auth:object = store.auth
+    const token:string = useUser().token
+    const auth:object = useUser().auth
 
     if (token) {
       //@ts-ignore

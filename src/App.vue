@@ -1,21 +1,6 @@
 
 <template>
 
-  <!-- 消息提示 message -->
-  <n-message-provider>
-    <MessageApi />
-  </n-message-provider>
-
-  <!-- 弹出框 dialog -->
-  <n-dialog-provider>
-    <DialogApi />
-  </n-dialog-provider>
-
-  <!-- 浏览器加载进度条 LoadingBar -->
-  <n-loading-bar-provider>
-    <LoadingBarApi />
-  </n-loading-bar-provider>
-
   <!-- 内容 -->
   <n-config-provider :theme="theme === 'dark'?darkTheme:null" :locale="language ==='chinese'?zhCN:null" :theme-overrides="themeOverrides">
     <n-layout >
@@ -31,6 +16,8 @@
         </n-layout-footer>
       </div>
     </n-layout>
+	
+	<Feedback />
   </n-config-provider>
 
 </template>
@@ -38,13 +25,10 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import MessageApi from "@/components/naive-ui/MessageApi.vue";
-import DialogApi from "@/components/naive-ui/DialogApi.vue";
-import LoadingBarApi from "@/components/naive-ui/LoadingBarApi.vue";
+import Feedback from "@/components/Feedback.vue";
 
-import Cookie from '@/hooks/Cookie'  
 import { onMounted, ref, watch, computed } from 'vue'
-import {useStore} from '@/store/index'
+import {useSetting, useUser} from '@/store/index'
 
 // theme locale 
 import { darkTheme, zhCN, enUS } from 'naive-ui'
@@ -66,14 +50,40 @@ export default {
   components: {
     Header,
     Footer,
-    MessageApi,
-    DialogApi,
-    LoadingBarApi
+	Feedback
   },
   setup() {
-	  const store = useStore()
-    const theme = computed(() => store.websiteConfig.theme)
-    const language = computed(() => store.websiteConfig.language)
+    const theme = computed(() => useSetting().theme)
+    const language = computed(() => useSetting().language)
+	const experienceNumber = computed(() => useUser().experienceNumber)
+	console.log(experienceNumber)
+	
+	onMounted(()=>{
+		window.$notification.success({
+			title:'欢迎来到git图床',
+			content:`你当前还有${experienceNumber}次体验上传图片！！！`,
+			// duration: 10000
+		})
+	})
+	
+	
+	 // 禁止选中
+	// document.body.onselectstart = function(){
+	// 	window.$message.warning('禁止选中')
+	// 　　return false;
+	// }
+	// 禁止右键
+	document.oncontextmenu =function(){
+		window.$message.warning('禁止右键')
+	  return false
+	}
+	// 禁止f12
+	// document.onkeydown =function(e){
+	//   if(e.keyCode == 123){
+	// 	window.$message.warning('禁止f12')
+	// 	return false
+	//   }
+	// }
 
     
     return {

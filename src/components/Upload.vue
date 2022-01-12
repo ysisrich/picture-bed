@@ -30,6 +30,7 @@ import { reactive, toRefs } from 'vue'
 import { CloudUploadOutline as CloudUploadOutlineIcon } from '@vicons/ionicons5'
 
 import {createNewFileOrUpdateFile} from '@/service/api';
+import { useUser } from '@/store/index'
 
 
 export default {
@@ -56,6 +57,11 @@ export default {
 			const {name,size,type} = file.file
             // console.log(name,size,type)
             console.log('文件列表',fileList)
+			
+			if(useUser().experienceNumber == 0){
+				$message.error('你的体验次数已用完，赶紧登录试试吧！')
+				return false
+			}
 			
 			if (!imgType.includes(type) || !/\.(jpe?g|png|gif|ico)$/i.test(name)) {
 				$message.error('上传图片仅支持JPG、JPEG、gif、PNG、ico格式！')
@@ -119,6 +125,7 @@ export default {
 							window.$message.success('上传成功！')
 							const href = `https://cdn.jsdelivr.net/gh/YsisNo1/static/${res.content.path}`
 							console.log(href)
+							useUser().visitorUpload()
 						}else{
 							onError(res)
 						}
