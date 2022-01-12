@@ -20,6 +20,7 @@ export default {
     changeConfig(params:{key:'',value:''}){
 		const {key='',value=''} = params
 		if(key != null && key != ''){
+      // @ts-ignore
 			this[key] = value 
 			Cookie.setCookie(key,value)
 		}
