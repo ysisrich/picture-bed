@@ -9,11 +9,11 @@
       * @date: 2020-12-28 
       * @param:  cname   string  cookie名称
       * @param:  cvalue  any cookie值
-      * @param:  exdays  number  cookie保存天数
+      * @param:  exdays  number  cookie保存天数 -1 到当前24点
       */
      setCookie(cname:string, cvalue:any, exdays = 365) {
          var d = new Date();
-         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+         exdays == -1 ? d.setHours(23,59,59,999) : d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
          var expires = "expires=" + d.toUTCString();
          document.cookie = cname + "=" + cvalue + "; " + expires;
      },

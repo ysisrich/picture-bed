@@ -4,11 +4,10 @@
 import Cookie from "@/hooks/Cookie";
 
 const baseUrl = 'https://gitee.com/api/v5'
-Cookie.setCookie('baseUrl',baseUrl)
 
 export default {
 	baseUrl,
-    token: "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",
+    token: "9a442e5a2baf17575d1948a7f0bb82d6",
     auth: {
       username: "YsisNo1",
       password: "***************",

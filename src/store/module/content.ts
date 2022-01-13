@@ -18,6 +18,9 @@ export default {
 	  },
 	  markdown(){
 		  return `![](${this.content})`
+	  },
+    wxml(){
+		  return `<image src="${this.content}" />`
 	  }
   },
   actions: {

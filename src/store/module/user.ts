@@ -1,34 +1,23 @@
 /**
  * 用户登录信息 token auth
  */
-      //@ts-nocheck
+//@ts-nocheck
 
 import Cookie from "@/hooks/Cookie";
 import { getUserRepositoryInfo } from "@/service/api";
 
-import github from './github'
-import gitee from './gitee'
+import Gitee from './gitee'
+import Github from './github'
 
 
 export default {
   id: "userGlobalState",
   // state: 返回对象的函数
   state: () => ({
-    experienceNumber: Cookie.getCookie("experienceNumber") || 3,
+    experienceNumber: Cookie.getCookie("experienceNumber") || 6,
     userType: 0, // 0 游客 1 账户
-    // token: "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",
-    // auth: {
-    //   username: "YsisNo1",
-    //   password: "***************",
-    // },
-    // userInfo: {},
-    // repoInfo: {
-    //   owner: "YsisNo1",
-    //   repo: "static",
-    //   path: "",
-    // },
-	repoType:0, // 仓库类型 0 github 1 gitee
-	git:github
+    repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
+    git:Cookie.getCookie("repoType") == 'Github' ? Github : Gitee
   }),
   getters: {},
   actions: {
@@ -36,22 +25,20 @@ export default {
     visitorUpload() {
       if (this.experienceNumber) {
         --this.experienceNumber;
-        Cookie.setCookie("experienceNumber", this.experienceNumber);
+        Cookie.setCookie("experienceNumber", this.experienceNumber,-1);
         window.$notification.success({
           title: "上传成功！",
-          content: `你当前还有${this.experienceNumber}次体验上传图片！！！`,
+          content: `你今日还有${this.experienceNumber}次体验上传图片！！！`,
           duration: 10000,
         });
       }
     },
-	// 切换仓库 gitee github 
-	changeRepoType(){
-		if(this.repoType == 0){
-			this.git = gitee
-		}else{
-			this.git = github
-		}
-	},
+    // 切换仓库 gitee github 
+    changeRepoType(){
+      Cookie.setCookie('repoType',Cookie.getCookie('repoType') == 'Github' ? 'Gitee' :'Github')
+      this.git = Cookie.getCookie("repoType") == 'Github' ? Github : Gitee
+      this.repoType = Cookie.getCookie("repoType")
+    },
     // 登录
     login() {},
     // 获取仓库详情

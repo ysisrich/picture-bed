@@ -56,35 +56,31 @@
       const theme = computed(() => useSetting().theme)
       const language = computed(() => useSetting().language)
       const experienceNumber = computed(() => useUser().experienceNumber)
-	  
+
       onMounted(() => {
         setTimeout(() => {
           window.$notification.success({
             title: '欢迎来到Git图床',
-            content: `你当前还有${experienceNumber.value}次体验上传图片！！！`,
+            content: `你今日还有${experienceNumber.value}次体验上传图片！！！`,
             duration: 10000
           })
         })
       })
 
 
-      // 禁止选中
-      // document.body.onselectstart = function(){
-      // 	window.$message.warning('禁止选中')
-      // 　　return false;
-      // }
+
       // 禁止右键
       document.oncontextmenu = function () {
         window.$message.warning('禁止右键')
         return false
       }
       // 禁止f12
-      // document.onkeydown = function (e) {
-      //   if (e.keyCode == 123) {
-      //     window.$message.warning('禁止f12')
-      //     return false
-      //   }
-      // }
+      document.onkeydown = function (e) {
+        if (e.keyCode == 123) {
+          window.$message.warning('禁止f12')
+          return false
+        }
+      }
 
 
       return {

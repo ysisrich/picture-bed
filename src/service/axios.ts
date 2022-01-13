@@ -5,12 +5,16 @@
 import axios, { AxiosRequestConfig } from "axios";
 // 导入 Store
 import { useUser } from "@/store/index";
+
 import Cookie from "@/hooks/Cookie";
+Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
 
+const baseUrl ={
+  Github:'https://api.github.com',
+  Gitee:'https://gitee.com/api/v5'
+}
 
-
-// axios.defaults.baseURL = "https://api.github.com";
-axios.defaults.baseURL = Cookie.getCookie('baseUrl') || '';
+axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
 axios.defaults.timeout = 10000; // 设置超时时长
 //@ts-ignore
 axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
@@ -20,6 +24,7 @@ axios.defaults.headers["Accept"] = "application/vnd.github.v3+json";
 // 请求拦截
 axios.interceptors.request.use(
   (config): AxiosRequestConfig<any> => {
+    console.log('git变化',useUser().git)
     const token: string = useUser().git.token;
     const auth: object = useUser().git.auth;
 
@@ -50,6 +55,7 @@ const errorCode: object = {
   "422": "验证失败",
   "404": "资源未找到",
   "409": "资源冲突",
+  "400": "sha字段为空"
 };
 
 // 响应拦截
@@ -94,6 +100,7 @@ interface Axios {
 const request: Axios = {
   get(url, params) {
     return new Promise((resolve, reject) => {
+      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -112,6 +119,7 @@ const request: Axios = {
   },
   post(url, params) {
     return new Promise((resolve, reject) => {
+      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -130,6 +138,7 @@ const request: Axios = {
   },
   patch(url, params) {
     return new Promise((resolve, reject) => {
+      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -148,6 +157,7 @@ const request: Axios = {
   },
   put(url, params) {
     return new Promise((resolve, reject) => {
+      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -166,6 +176,7 @@ const request: Axios = {
   },
   delete(url, params) {
     return new Promise((resolve, reject) => {
+      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
       // @ts-ignore
       window.$loadingBar.start();
       axios

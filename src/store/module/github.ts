@@ -4,7 +4,6 @@
 import Cookie from "@/hooks/Cookie";
 
 const baseUrl = 'https://api.github.com'
-Cookie.setCookie('baseUrl',baseUrl)
 
 export default {
 	baseUrl,

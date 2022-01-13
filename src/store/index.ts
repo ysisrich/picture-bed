@@ -1,3 +1,5 @@
+
+// store/index.ts
 import { defineStore } from "pinia";
 import setting from "./module/setting";
 import user from "./module/user";

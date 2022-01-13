@@ -2,6 +2,7 @@
     <div class="content">
         <n-space vertical>
             <Alert />
+            <Radio />
             <Upload />
             <Result />
         </n-space>
@@ -10,6 +11,7 @@
 
 <script>
     import Upload from '@/components/Upload.vue'
+    import Radio from '@/components/Radio.vue'
     import Alert from '@/components/Alert.vue'
     import Result from '@/components/Result.vue'
 
@@ -18,6 +20,7 @@
         name: 'Index',
         components: {
             Alert,
+            Radio,
             Upload,
             Result
         },

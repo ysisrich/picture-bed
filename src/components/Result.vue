@@ -1,8 +1,8 @@
 <template>
     <n-spin :show="show" v-if="content.length">
         <n-card title="" v-show="content.length">
-            <n-image width="400" height="200" object-fit="cover" :src="content"
-                @load="imgLoadFinish" @error="imgLoadError" />
+            <n-image width="400" height="200" object-fit="cover" :src="content" @load="imgLoadFinish"
+                @error="imgLoadError" />
             <div style="width: 100%; margin-left: 20px;">
                 <div class="links">
                     <n-text class="text">URL</n-text>
@@ -19,6 +19,11 @@
                     <n-input class="input" ref="inputInstRef" v-model:value="inputValue3" />
                     <n-button type="success" @click="handleCopy(inputValue3)">复制</n-button>
                 </div>
+                <div class="links">
+                    <n-text class="text">WXML</n-text>
+                    <n-input class="input" ref="inputInstRef" v-model:value="inputValue4" />
+                    <n-button type="success" @click="handleCopy(inputValue4)">复制</n-button>
+                </div>
             </div>
         </n-card>
     </n-spin>
@@ -27,7 +32,7 @@
 <script>
     import { reactive, toRefs, computed, ref } from 'vue'
     import { useContent } from '@/store/index'
-	import { storeToRefs } from 'pinia'
+    import { storeToRefs } from 'pinia'
     export default {
         name: 'Result',
 
@@ -37,14 +42,14 @@
             })
 
             // const content = computed(() => useContent().content)
-			const {content} = storeToRefs(useContent())
-			
+            const { content } = storeToRefs(useContent())
+
             const imgLoadFinish = (e) => {
                 data.show = false
             }
             const imgLoadError = (e) => {
                 data.show = true
-				window.$message.error('图片加载出错！')
+                window.$message.error('图片加载出错！')
             }
 
 
@@ -65,6 +70,7 @@
                 inputValue1: computed(() => useContent().content),
                 inputValue2: computed(() => useContent().html),
                 inputValue3: computed(() => useContent().markdown),
+                inputValue4: computed(() => useContent().wxml),
                 imgLoadFinish,
                 imgLoadError,
                 handleCopy

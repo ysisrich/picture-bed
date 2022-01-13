@@ -1,6 +1,6 @@
 <template>
 	<n-upload :action="action" accept="image/*" v-model:file-list="fileList" :multiple="false" :show-file-list="false"
-		@before-upload="beforeUpload" @finish="finish" :customRequest="customRequest">
+		@before-upload="beforeUpload" :customRequest="customRequest">
 		<n-upload-dragger>
 			<div style="margin-bottom: 12px;">
 				<n-icon size="50" :depth="3">
@@ -19,7 +19,7 @@
 	import { reactive, toRefs } from 'vue'
 	import { CloudUploadOutline as CloudUploadOutlineIcon } from '@vicons/ionicons5'
 	import GenNonDuplicateID from '@/hooks/uniqueID'
-	import { createNewFileOrUpdateFile } from '@/service/api';
+	import { createNewFileOrUpdateFile, _createNewFileOrUpdateFile } from '@/service/api';
 	import { useUser, useContent } from '@/store/index'
 
 
@@ -33,7 +33,6 @@
 
 			let globalData = reactive({
 				action: '',
-				base64File: '',
 				fileList: []
 			})
 
@@ -86,18 +85,6 @@
 				return true
 			}
 
-			// Base64转Blob
-			const dataURItoBlob = (dataURI) => {
-				var byteString = atob(dataURI.split(',')[1]);
-				var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-				var ab = new ArrayBuffer(byteString.length);
-				var ia = new Uint8Array(ab);
-				for (var i = 0; i < byteString.length; i++) {
-					ia[i] = byteString.charCodeAt(i);
-				}
-				return new Blob([ab], { type: mimeString });
-			}
-
 			// 上传
 			const customRequest = ({
 				file,
@@ -116,34 +103,45 @@
 				let reader = new FileReader();
 				reader.readAsDataURL(file.file)
 				reader.addEventListener("load", function () {
-					globalData.base64File = reader.result
-
 					let query = {
 						owner: useUser().git.repoInfo.owner,
 						repo: useUser().git.repoInfo.repo,
 						path: `${GenNonDuplicateID(6)}.${name.split('.')[1]}`
 					}
-					console.log(`${GenNonDuplicateID(6)}.${name.split('.')[1]}`)
 					// debugger
 					let params = {
-						message: 'git图床提交',
+						message: 'Git图床提交',
 						content: reader.result.split(',')[1]
 					}
 
-					createNewFileOrUpdateFile(params, query).then(res => {
-						console.log(res)
-						if (res.status == 201) {
-							onFinish(res)
-							window.$message.success('上传成功！')
-							const href = `https://cdn.jsdelivr.net/gh/YsisNo1/static/${res.data.content.path}`
-							console.log(href)
-							useContent().setContent({ content: href })
-							useUser().userType == 0 && useUser().visitorUpload()
-						} else {
-							onError(res)
-						}
-					})
-
+					if (useUser().repoType == 'Github') {
+						createNewFileOrUpdateFile(params, query).then(res => {
+							console.log(res)
+							if (res.status == 201) {
+								onFinish(res)
+								window.$message.success('上传成功！')
+								const href = `https://cdn.jsdelivr.net/gh/${query.owner}/${query.repo}/${res.data.content.path}`
+								console.log(href)
+								useContent().setContent({ content: href })
+								useUser().userType == 0 && useUser().visitorUpload()
+							} else {
+								onError(res)
+							}
+						})
+					} else {
+						_createNewFileOrUpdateFile(params, query).then(res => {
+							if (res.status == 201) {
+								onFinish(res)
+								window.$message.success('上传成功！')
+								const href = `https://gitee.com/ysisno1/${query.repo}/raw/master/${res.data.content.path}`
+								console.log(href)
+								useContent().setContent({ content: href })
+								useUser().userType == 0 && useUser().visitorUpload()
+							} else {
+								onError(res)
+							}
+						})
+					}
 
 				}, false);
 
@@ -151,15 +149,9 @@
 			}
 
 
-			// 上传完成
-			const finish = ({ file, e }) => {
-				console.log(file, e)
-			}
-
 			return {
 				...toRefs(globalData),
 				beforeUpload,
-				finish,
 				customRequest
 			}
 		}

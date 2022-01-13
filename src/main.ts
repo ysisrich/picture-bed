@@ -34,6 +34,8 @@ import {
   NSpin,
   NImage,
   NInput,
+  NRadioGroup,
+  NRadioButton
 } from "naive-ui";
 
 const components = [
@@ -59,6 +61,8 @@ const components = [
   NSpin,
   NImage,
   NInput,
+  NRadioGroup,
+  NRadioButton,
 ];
 
 const naive = create({ components });
