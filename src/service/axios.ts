@@ -3,11 +3,14 @@
 
 //axios.ts
 import axios, { AxiosRequestConfig } from "axios";
-// 导入 Store， 使用自己的路径
+// 导入 Store
 import { useUser } from "@/store/index";
+import Cookie from "@/hooks/Cookie";
 
-// 设置请求头和请求路径
-axios.defaults.baseURL = "https://api.github.com";
+
+
+// axios.defaults.baseURL = "https://api.github.com";
+axios.defaults.baseURL = Cookie.getCookie('baseUrl') || '';
 axios.defaults.timeout = 10000; // 设置超时时长
 //@ts-ignore
 axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
@@ -17,8 +20,8 @@ axios.defaults.headers["Accept"] = "application/vnd.github.v3+json";
 // 请求拦截
 axios.interceptors.request.use(
   (config): AxiosRequestConfig<any> => {
-    const token: string = useUser().token;
-    const auth: object = useUser().auth;
+    const token: string = useUser().git.token;
+    const auth: object = useUser().git.auth;
 
     if (token) {
       //@ts-ignore
@@ -63,6 +66,7 @@ axios.interceptors.response.use(
     return Promise.resolve(response);
   },
   (error) => {
+	  console.log(error)
     const status: number = error.response.status;
     if (status) {
       // @ts-ignore

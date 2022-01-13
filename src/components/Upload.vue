@@ -119,8 +119,8 @@
 					globalData.base64File = reader.result
 
 					let query = {
-						owner: useUser().repoInfo.owner,
-						repo: useUser().repoInfo.repo,
+						owner: useUser().git.repoInfo.owner,
+						repo: useUser().git.repoInfo.repo,
 						path: `${GenNonDuplicateID(6)}.${name.split('.')[1]}`
 					}
 					console.log(`${GenNonDuplicateID(6)}.${name.split('.')[1]}`)

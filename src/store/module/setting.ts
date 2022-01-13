@@ -5,7 +5,6 @@
 import Cookie from '@/hooks/Cookie'
 
 export default {
-  // id: 必须的，在所有 Store 中唯一
   id: 'websiteSettingGlobalState',
   // state: 返回对象的函数
   state: () => ({

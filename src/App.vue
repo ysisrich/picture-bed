@@ -56,7 +56,7 @@
       const theme = computed(() => useSetting().theme)
       const language = computed(() => useSetting().language)
       const experienceNumber = computed(() => useUser().experienceNumber)
-
+	  
       onMounted(() => {
         setTimeout(() => {
           window.$notification.success({
@@ -79,12 +79,12 @@
         return false
       }
       // 禁止f12
-      document.onkeydown = function (e) {
-        if (e.keyCode == 123) {
-          window.$message.warning('禁止f12')
-          return false
-        }
-      }
+      // document.onkeydown = function (e) {
+      //   if (e.keyCode == 123) {
+      //     window.$message.warning('禁止f12')
+      //     return false
+      //   }
+      // }
 
 
       return {

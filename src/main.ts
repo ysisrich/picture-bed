@@ -65,9 +65,8 @@ const naive = create({ components });
 
 const app = createApp(App);
 
-app.use(router);
-// 创建根存储库并将其传递给应用程序
 app.use(createPinia());
+app.use(router);
 app.use(naive);
 
 app.mount("#app");
