@@ -47,6 +47,7 @@
 				const { name, size, type } = file.file
 				// console.log(name,size,type)
 				// console.log('文件列表', fileList)
+				useContent().setContent({ content: '' })
 
 				// 限制图床仓库大小
 				let res = await useUser().getUserRepositoryInfo()
@@ -166,7 +167,7 @@
 </script>
 
 <style lang="scss" scoped>
-	::v-deep .n-upload-trigger {
+	::v-deep(.n-upload-trigger) {
 		display: block;
 
 		.n-upload-dragger {

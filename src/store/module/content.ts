@@ -1,12 +1,25 @@
+//@ts-nocheck
+
 /**
  * 上传成功 data
  */
+
 export default {
   id: "contentGlobalState",
   state: () => ({
     content: "",
   }),
-  getters: {},
+  getters: {
+	  url(){
+		  return this.content
+	  },
+	  html(){
+		  return `<img src="${this.content}" />`
+	  },
+	  markdown(){
+		  return `![](${this.content})`
+	  }
+  },
   actions: {
     setContent(params: {}) {
       // @ts-ignore

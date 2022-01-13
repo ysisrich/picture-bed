@@ -1,7 +1,7 @@
 <template>
     <n-spin :show="show" v-if="content.length">
         <n-card title="" v-show="content.length">
-            <n-image width="400" height="200" object-fit="cover" :src="content" :preview-disabled="false"
+            <n-image width="400" height="200" object-fit="cover" :src="content"
                 @load="imgLoadFinish" @error="imgLoadError" />
             <div style="width: 100%; margin-left: 20px;">
                 <div class="links">
@@ -27,6 +27,7 @@
 <script>
     import { reactive, toRefs, computed, ref } from 'vue'
     import { useContent } from '@/store/index'
+	import { storeToRefs } from 'pinia'
     export default {
         name: 'Result',
 
@@ -35,13 +36,15 @@
                 show: true
             })
 
-
-            const content = computed(() => useContent().content)
+            // const content = computed(() => useContent().content)
+			const {content} = storeToRefs(useContent())
+			
             const imgLoadFinish = (e) => {
                 data.show = false
             }
             const imgLoadError = (e) => {
                 data.show = true
+				window.$message.error('图片加载出错！')
             }
 
 
@@ -60,8 +63,8 @@
                 ...toRefs(data),
                 content,
                 inputValue1: computed(() => useContent().content),
-                inputValue2: `<img src="${computed(() => useContent().content).value}" />`,
-                inputValue3: `![](${computed(() => useContent().content).value})`,
+                inputValue2: computed(() => useContent().html),
+                inputValue3: computed(() => useContent().markdown),
                 imgLoadFinish,
                 imgLoadError,
                 handleCopy
@@ -71,7 +74,7 @@
 </script>
 
 <style lang="scss" scoped>
-    ::v-deep .n-card__content {
+    ::v-deep(.n-card__content) {
         display: flex;
 
 
