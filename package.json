@@ -1,6 +1,17 @@
 {
   "name": "picture-bed",
   "version": "0.0.0",
+  "private": "false",
+  "author": {
+    "name": "yangs",
+    "email": "2048400850@qq.com"
+  },
+  "description": "免费的Git图床",
+  "keywords": [
+    "图床",
+    "Github",
+    "Gitee"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -14,6 +25,7 @@
     "pinia": "^2.0.0-rc.10",
     "vfonts": "0.0.3",
     "vue": "^3.2.25",
+    "vue-i18n": "^9.2.0-beta.26",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {

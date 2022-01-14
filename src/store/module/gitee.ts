@@ -1,7 +1,7 @@
 /*
 * gitee 仓库信息
 */
-import Cookie from "@/hooks/Cookie";
+import Cookie from "@/utils/Cookie";
 
 const baseUrl = 'https://gitee.com/api/v5'
 

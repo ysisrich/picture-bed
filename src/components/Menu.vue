@@ -4,7 +4,9 @@
 
 <script>
   import { useSetting } from '@/store/index'
-  import { defineComponent, h, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  import { defineComponent, h, ref, reactive, toRefs, watch, computed } from 'vue'
   import { NIcon } from 'naive-ui'
   import {
     CloudUploadOutline as CloudUploadOutlineIcon,
@@ -14,81 +16,80 @@
     FlashlightOutline as FlashlightOutlineIcon
   } from '@vicons/ionicons5'
 
-  function renderIcon(icon) {
-    return () => h(NIcon, null, { default: () => h(icon) })
-  }
 
-  const menuOptions = [
-    {
-      label: '多图上传',
-      key: 'upload',
-      icon: renderIcon(CloudUploadOutlineIcon)
-    },
-    {
-      label: '登录',
-      key: 'login',
-      icon: renderIcon(LogInOutlineIcon),
-    },
-    {
-      label: '语言',
-      key: 'language',
-      icon: renderIcon(LanguageOutlineIcon),
-      children: [
-        {
-          label: '中文',
-          key: 'chinese',
-          // icon: renderIcon(LanguageOutlineIcon),
-        },
-        {
-          label: 'English',
-          key: 'english',
-          // icon: renderIcon(LanguageOutlineIcon),
-        }
-      ]
-    },
-    {
-      label: '主题',
-      key: 'theme',
-      icon: renderIcon(FlashlightOutlineIcon),
-      children: [
-        {
-          label: 'dark（深色）',
-          key: 'dark',
-          // icon: renderIcon(LanguageOutlineIcon),
-        },
-        {
-          label: 'light（浅色）',
-          key: 'light',
-          // icon: renderIcon(LanguageOutlineIcon),
-        }
-      ]
-    },
-    {
-      label: '关于',
-      key: 'about',
-      icon: renderIcon(AlertCircleOutlineIcon),
-    },
-  ]
 
   export default {
     name: 'Menu',
-    components: {
 
-    },
     setup() {
-      let activeKey = ref(null)
+      const { t, locale } = useI18n()
+
+      let data = reactive({
+        activeKey: '',
+        menuOptions: []
+      })
+
+      const renderIcon = (icon) => {
+        return () => h(NIcon, null, { default: () => h(icon) })
+      }
+      const MESSAGE = {}
+
+
+      const local = computed(() => locale.value)
+      watch(local, () => {
+        MESSAGE.underDevelopment = t('message.underDevelopment')
+        data.menuOptions = [
+          {
+            label: t('menu.upload'),
+            key: 'upload',
+            icon: renderIcon(CloudUploadOutlineIcon)
+          },
+          {
+            label: t('menu.login'),
+            key: 'login',
+            icon: renderIcon(LogInOutlineIcon),
+          },
+          {
+            label: t('menu.language'),
+            key: 'language',
+            icon: renderIcon(LanguageOutlineIcon),
+            children: [
+              { label: '中文', key: 'zh', },
+              { label: 'English', key: 'en', }
+            ]
+          },
+          {
+            label: t('menu.theme'),
+            key: 'theme',
+            icon: renderIcon(FlashlightOutlineIcon),
+            children: [
+              { label: 'dark（深色）', key: 'dark', },
+              { label: 'light（浅色）', key: 'light', }
+            ]
+          },
+          {
+            label: t('menu.about'),
+            key: 'about',
+            icon: renderIcon(AlertCircleOutlineIcon),
+          },
+        ]
+      }, { immediate: true })
+
+
       const handleUpdateExpandedKeys = value => {
         // console.log(value)
         // 登录
         if (value == 'login') {
-          window.$message.info('还在开发ing.....别急')
+          console.log(MESSAGE.underDevelopment)
+          window.$message.info(MESSAGE.underDevelopment)
         }
         // 上传
         else if (value == 'upload') {
-          window.$message.info('还在开发ing.....别急')
+          window.$message.info(MESSAGE.underDevelopment)
         }
         // 切换语言
-        else if (value == 'english' || value == 'chinese') {
+        else if (value == 'en' || value == 'zh') {
+          locale.value = value
           useSetting().changeConfig({ key: 'language', value })
         }
         // 切换主题
@@ -97,13 +98,12 @@
         }
         // 关于
         else if (value == 'about') {
-          window.$message.info('还在开发ing.....别急')
+          window.$message.info(MESSAGE.underDevelopment)
         }
       }
 
       return {
-        activeKey,
-        menuOptions,
+        ...toRefs(data),
         handleUpdateExpandedKeys
       }
     }

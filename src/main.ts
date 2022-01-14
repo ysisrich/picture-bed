@@ -3,6 +3,7 @@ import App from "./App.vue";
 
 import router from "./router/index";
 import { createPinia } from "pinia";
+import i18n from '@/lang/index'
 
 // 通用字体
 import "vfonts/Lato.css";
@@ -70,6 +71,7 @@ const naive = create({ components });
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(i18n)
 app.use(router);
 app.use(naive);
 

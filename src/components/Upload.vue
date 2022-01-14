@@ -7,20 +7,19 @@
 					<CloudUploadOutlineIcon />
 				</n-icon>
 			</div>
-			<n-text style="font-size: 16px;">点击或者拖动文件到该区域来上传</n-text>
-			<n-p depth="3" style="margin: 8px 0 0 0;">
-				支持的图片格式有png、jpg、jpeg、gif、ico等，单张图片大小不能超过50M
-			</n-p>
+			<n-text style="font-size: 16px;"> {{$t('clickOrDragToUpload')}}</n-text>
+			<n-p depth="3" style="margin-top: 8px;"> {{$t('pictureType')}} </n-p>
 		</n-upload-dragger>
 	</n-upload>
 </template>
 
 <script>
-	import { reactive, toRefs } from 'vue'
+	import { reactive, toRefs, watch } from 'vue'
 	import { CloudUploadOutline as CloudUploadOutlineIcon } from '@vicons/ionicons5'
-	import GenNonDuplicateID from '@/hooks/uniqueID'
+	import GenNonDuplicateID from '@/utils/uniqueID'
 	import { createNewFileOrUpdateFile, _createNewFileOrUpdateFile } from '@/service/api';
 	import { useUser, useContent } from '@/store/index'
+	import { useI18n } from 'vue-i18n'
 
 
 	export default {
@@ -37,6 +36,17 @@
 			})
 
 			const imgType = ['image/jpeg', 'image/png', 'image/gif', 'image/jpeg', 'image/x-icon'];
+			const MESSAGE = {}
+			const { t, locale } = useI18n()
+			watch(locale, () => {
+				MESSAGE.uploadLimit1 = t('message.uploadLimit1')
+				MESSAGE.uploadLimit2 = t('message.uploadLimit2')
+				MESSAGE.uploadLimit3 = t('message.uploadLimit3')
+				MESSAGE.uploadLimit4 = t('message.uploadLimit4')
+				MESSAGE.uploadLimit5 = t('message.uploadLimit5')
+				MESSAGE.uploadSuccess = t('message.uploadSuccess')
+			}, { immediate: true })
+
 
 
 
@@ -54,7 +64,7 @@
 					if (res.data.size > 1024 * 1024) {
 						console.log(res.data.size)
 						window.$notification.error({
-							content: `单个图床仓库大小已超过上限，建议另建图床仓库`,
+							content: MESSAGE.uploadLimit1,
 						})
 						return false
 					}
@@ -63,28 +73,26 @@
 				// 游客身份 限制次数
 				if (useUser().userType == 0 && useUser().experienceNumber == 0) {
 					window.$notification.error({
-						// title: '欢迎来到git图床',
-						content: `你的体验次数已用完\n登录账户可获得5000次/小时\n赶紧登录Github账户试试吧！！！！`,
-						// duration: 10000
+						content: MESSAGE.uploadLimit2,
 					})
 					return false
 				}
 
 				// 限制图片格式
 				if (!imgType.includes(type) || !/\.(jpe?g|png|gif|ico)$/i.test(name)) {
-					$message.error('上传图片仅支持JPG、JPEG、gif、PNG、ico格式！')
+					$message.error(MESSAGE.uploadLimit3)
 					return false
 				}
 
 				// 限制图片大小 2M
 				if (size > 1024 * 1024 * 2) {
-					$message.error('上传单张图片大小不能超过2M！')
+					$message.error(MESSAGE.uploadLimit4)
 					return false
 				}
-				
+
 				// Gitee限制图片大小 1M
 				if (useUser().repoType == 'Gitee' && size > 1024 * 1024 * 1) {
-					$message.error('Gitee单张图片大小不能超过1M！')
+					$message.error(MESSAGE.uploadLimit5)
 					return false
 				}
 
@@ -125,7 +133,7 @@
 							console.log(res)
 							if (res.status == 201) {
 								onFinish(res)
-								window.$message.success('上传成功！')
+								window.$message.success(MESSAGE.uploadSuccess)
 								const href = `https://cdn.jsdelivr.net/gh/${query.owner}/${query.repo}/${res.data.content.path}`
 								console.log(href)
 								useContent().setContent({ content: href })
@@ -138,7 +146,7 @@
 						_createNewFileOrUpdateFile(params, query).then(res => {
 							if (res.status == 201) {
 								onFinish(res)
-								window.$message.success('上传成功！')
+								window.$message.success(MESSAGE.uploadSuccess)
 								const href = `https://gitee.com/ysisno1/${query.repo}/raw/master/${res.data.content.path}`
 								console.log(href)
 								useContent().setContent({ content: href })

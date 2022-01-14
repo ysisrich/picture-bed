@@ -6,7 +6,7 @@ import axios, { AxiosRequestConfig } from "axios";
 // 导入 Store
 import { useUser } from "@/store/index";
 
-import Cookie from "@/hooks/Cookie";
+import Cookie from "@/utils/Cookie";
 Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
 
 const baseUrl ={

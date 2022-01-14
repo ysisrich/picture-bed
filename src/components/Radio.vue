@@ -1,6 +1,6 @@
 <template>
     <n-space style="margin-top: 10px;">
-        <n-text style="line-height: 32px;">仓库地址：</n-text>
+        <n-text style="line-height: 32px;">{{$t('repositories')}}：</n-text>
         <n-radio-group v-model:value="value" @update:value="changeRepoType">
             <n-radio-button v-for="item in types" :key="item.value" :value="item.value">
                 {{ item.label }}
@@ -12,7 +12,7 @@
 <script>
     import { ref, reactive, toRefs } from 'vue'
     import { useUser } from '@/store/index'
-    import Cookie from '@/hooks/Cookie'
+    import Cookie from '@/utils/Cookie'
     export default {
         name: 'Radio',
 
@@ -36,4 +36,3 @@
         },
     }; 
 </script>
-

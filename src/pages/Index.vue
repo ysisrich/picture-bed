@@ -15,7 +15,6 @@
     import Alert from '@/components/Alert.vue'
     import Result from '@/components/Result.vue'
 
-
     export default {
         name: 'Index',
         components: {

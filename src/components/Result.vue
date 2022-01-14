@@ -4,25 +4,10 @@
             <n-image width="400" height="200" object-fit="cover" :src="content" @load="imgLoadFinish"
                 @error="imgLoadError" />
             <div style="width: 100%; margin-left: 20px;">
-                <div class="links">
-                    <n-text class="text">URL</n-text>
-                    <n-input class="input" ref="inputInstRef" v-model:value="inputValue1" />
-                    <n-button type="success" @click="handleCopy(inputValue1)">复制</n-button>
-                </div>
-                <div class="links">
-                    <n-text class="text">HTML</n-text>
-                    <n-input class="input" ref="inputInstRef" v-model:value="inputValue2" />
-                    <n-button type="success" @click="handleCopy(inputValue2)">复制</n-button>
-                </div>
-                <div class="links">
-                    <n-text class="text">Markdown</n-text>
-                    <n-input class="input" ref="inputInstRef" v-model:value="inputValue3" />
-                    <n-button type="success" @click="handleCopy(inputValue3)">复制</n-button>
-                </div>
-                <div class="links">
-                    <n-text class="text">WXML</n-text>
-                    <n-input class="input" ref="inputInstRef" v-model:value="inputValue4" />
-                    <n-button type="success" @click="handleCopy(inputValue4)">复制</n-button>
+                <div class="links" v-for="(item,index) in inputs" :key="`link-${index}`">
+                    <n-text class="text">{{item.name}}</n-text>
+                    <n-input class="input" v-model:value="item.inputValue.value" />
+                    <n-button type="success" @click="handleCopy(item.inputValue.value)">{{$t('copy')}}</n-button>
                 </div>
             </div>
         </n-card>
@@ -30,9 +15,11 @@
 </template>
 
 <script>
-    import { reactive, toRefs, computed, ref } from 'vue'
+    import { reactive, toRefs, computed, ref, watch } from 'vue'
     import { useContent } from '@/store/index'
     import { storeToRefs } from 'pinia'
+    import { useI18n } from 'vue-i18n'
+
     export default {
         name: 'Result',
 
@@ -40,26 +27,28 @@
             let data = reactive({
                 show: true
             })
-
-            // const content = computed(() => useContent().content)
+            const { t, locale } = useI18n()
             const { content } = storeToRefs(useContent())
+            const MESSAGE = {}
+            watch(locale, () => {
+                MESSAGE.loadImgError = t('message.loadImgError')
+            }, { immediate: true })
 
             const imgLoadFinish = (e) => {
                 data.show = false
             }
             const imgLoadError = (e) => {
                 data.show = true
-                window.$message.error('图片加载出错！')
+                window.$message.error(MESSAGE.loadImgError)
             }
 
-
             const handleCopy = (text) => {
-                var _input = document.createElement("input");   // 直接构建input
-                _input.value = text;  // 设置内容
-                document.body.appendChild(_input);    // 添加临时实例
-                _input.select();   // 选择实例内容
-                document.execCommand("Copy");   // 执行复制
-                document.body.removeChild(_input); // 删除临时实例
+                var _input = document.createElement("input");
+                _input.value = text;
+                document.body.appendChild(_input);
+                _input.select();
+                document.execCommand("Copy");
+                document.body.removeChild(_input);
                 window.$message.success('复制成功！')
             }
 
@@ -67,10 +56,12 @@
             return {
                 ...toRefs(data),
                 content,
-                inputValue1: computed(() => useContent().content),
-                inputValue2: computed(() => useContent().html),
-                inputValue3: computed(() => useContent().markdown),
-                inputValue4: computed(() => useContent().wxml),
+                inputs: [
+                    { name: 'URL', inputValue: computed(() => useContent().content) },
+                    { name: 'HTML', inputValue: computed(() => useContent().html) },
+                    { name: 'Markdown', inputValue: computed(() => useContent().markdown) },
+                    { name: 'WXML', inputValue: computed(() => useContent().wxml) }
+                ],
                 imgLoadFinish,
                 imgLoadError,
                 handleCopy

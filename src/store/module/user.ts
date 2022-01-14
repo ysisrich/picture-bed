@@ -3,7 +3,8 @@
  */
 //@ts-nocheck
 
-import Cookie from "@/hooks/Cookie";
+import Cookie from "@/utils/Cookie";
+import i18n from '@/lang/index'
 import { getUserRepositoryInfo } from "@/service/api";
 
 import Gitee from './gitee'
@@ -27,8 +28,8 @@ export default {
         --this.experienceNumber;
         Cookie.setCookie("experienceNumber", this.experienceNumber,-1);
         window.$notification.success({
-          title: "上传成功！",
-          content: `你今日还有${this.experienceNumber}次体验上传图片！！！`,
+          title: i18n.global.t('message.uploadSuccess'),
+          content: i18n.global.t('message.content', { time: this.experienceNumber }),
           duration: 10000,
         });
       }

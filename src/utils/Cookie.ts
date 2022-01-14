@@ -5,8 +5,6 @@
  {
  /**
       * @name: 设置cookie值
-      * @author: camellia
-      * @date: 2020-12-28 
       * @param:  cname   string  cookie名称
       * @param:  cvalue  any cookie值
       * @param:  exdays  number  cookie保存天数 -1 到当前24点
@@ -19,8 +17,6 @@
      },
      /**
       * @name: 获取cookie值
-      * @author: camellia
-      * @date: 2020-12-28 
       */
      getCookie(cname:string) {
          var name = cname + "=";
@@ -36,8 +32,6 @@
      },
      /**
       * @name: 清除cookie值
-      * @author: camellia
-      * @date: 2020-12-28 
       * @param:  cname   string  cookie名称
       */
      clearCookie(cname:string) {

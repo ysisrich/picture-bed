@@ -1,7 +1,7 @@
 /*
 * github 仓库信息
 */
-import Cookie from "@/hooks/Cookie";
+import Cookie from "@/utils/Cookie";
 
 const baseUrl = 'https://api.github.com'
 

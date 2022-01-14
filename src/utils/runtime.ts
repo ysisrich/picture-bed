@@ -12,7 +12,6 @@ const runtime = (dom:Document) =>{
     let c = (b-B)*60;
     let C = Math.floor((b-B)*60);
     let D = Math.floor((c-C)*60);
-    //信息写入到DIV中
     // @ts-ignore
     dom.innerHTML = "本站勉强运行: "+A+"天"+B+"小时"+C+"分"+D+"秒"
 }

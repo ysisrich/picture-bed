@@ -1,7 +1,7 @@
 <template>
 
   <!-- 内容 -->
-  <n-config-provider :theme="theme === 'dark'?darkTheme:null" :locale="language ==='chinese'?zhCN:null"
+  <n-config-provider :theme="theme === 'dark'?darkTheme:null" :locale="language ==='zh'?zhCN:null"
     :theme-overrides="themeOverrides">
     <n-layout>
       <div vertical class="layout">
@@ -29,14 +29,15 @@
 
   import { onMounted, ref, watch, computed } from 'vue'
   import { useSetting, useUser } from '@/store/index'
+  import { useI18n } from 'vue-i18n'
 
   // theme locale 
   import { darkTheme, zhCN, enUS } from 'naive-ui'
 
   /**
-    * js 文件下使用这个做类型提示
-    * @type import('naive-ui').GlobalThemeOverrides
-    */
+  * js 文件下使用这个做类型提示
+  * @type import('naive-ui').GlobalThemeOverrides
+  */
   const themeOverrides = {
     // common: {
     //   primaryColor: '#FF0000'
@@ -57,17 +58,19 @@
       const language = computed(() => useSetting().language)
       const experienceNumber = computed(() => useUser().experienceNumber)
 
+      const { t, locale } = useI18n()
+      const local = computed(() => locale.value)
+
+
       onMounted(() => {
         setTimeout(() => {
           window.$notification.success({
-            title: '欢迎来到Git图床',
-            content: `你今日还有${experienceNumber.value}次体验上传图片！！！`,
+            title: t('message.title1'),
+            content: t('message.content', { time: experienceNumber.value }),
             duration: 10000
           })
         })
       })
-
-
 
       // 禁止右键
       document.oncontextmenu = function () {
@@ -75,12 +78,12 @@
         return false
       }
       // 禁止f12
-      // document.onkeydown = function (e) {
-      //   if (e.keyCode == 123) {
-      //     window.$message.warning('禁止f12')
-      //     return false
-      //   }
-      // }
+      document.onkeydown = function (e) {
+        if (e.keyCode == 123) {
+          window.$message.warning('禁止f12')
+          return false
+        }
+      }
 
 
       return {
