@@ -33,7 +33,9 @@ export default {
         uploadLimit3:'上传图片仅支持JPG、JPEG、gif、PNG、ico格式！',
         uploadLimit4:'上传单张图片大小不能超过2M！',
         uploadLimit5:'Gitee单张图片大小不能超过1M！',
-        uploadSuccess:'上传成功！'
+        uploadSuccess:'上传成功！',
+        forbidRightKey:'禁止右键',
+        forbidF12:'禁止F12',
     },
     copy:'复制'
 }

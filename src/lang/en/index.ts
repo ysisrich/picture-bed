@@ -33,7 +33,9 @@ export default {
         uploadLimit3:'Upload pictures only support JPG, JPEG, gif, PNG and ico formats !',
         uploadLimit4:'The size of a uploaded image cannot exceed 2M !',
         uploadLimit5:'Gitee single picture size cannot exceed 1M !',
-        uploadSuccess:'Upload successful!'
+        uploadSuccess:'Upload successful!',
+        forbidRightKey:'No right click',
+        forbidF12:'No F12',
     },
 
     copy:'copy'

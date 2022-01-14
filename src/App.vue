@@ -61,7 +61,6 @@
       const { t, locale } = useI18n()
       const local = computed(() => locale.value)
 
-
       onMounted(() => {
         setTimeout(() => {
           window.$notification.success({
@@ -74,13 +73,13 @@
 
       // 禁止右键
       document.oncontextmenu = function () {
-        window.$message.warning('禁止右键')
+        window.$message.warning(t('message.forbidRightKey'))
         return false
       }
       // 禁止f12
       document.onkeydown = function (e) {
         if (e.keyCode == 123) {
-          window.$message.warning('禁止f12')
+          window.$message.warning(t('message.forbidF12'))
           return false
         }
       }
