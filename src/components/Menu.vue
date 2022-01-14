@@ -95,7 +95,7 @@
         else if (value == 'dark' || value == 'light') {
           useSetting().changeConfig({ key: 'theme', value })
         }
-        // 切换主题
+        // 关于
         else if (value == 'about') {
           window.$message.info('还在开发ing.....别急')
         }

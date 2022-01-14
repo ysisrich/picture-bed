@@ -22,7 +22,7 @@ import runtime from '@/hooks/websiteRunTime'
 import {onMounted} from 'vue'
 
 export default {
-    name: 'Header',
+    name: 'Footer',
 
     setup() {
         onMounted(() => {

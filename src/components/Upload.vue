@@ -81,6 +81,12 @@
 					$message.error('上传单张图片大小不能超过2M！')
 					return false
 				}
+				
+				// Gitee限制图片大小 1M
+				if (useUser().repoType == 'Gitee' && size > 1024 * 1024 * 1) {
+					$message.error('Gitee单张图片大小不能超过1M！')
+					return false
+				}
 
 				return true
 			}

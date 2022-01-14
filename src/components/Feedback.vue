@@ -14,7 +14,7 @@
 	  <LoadingBarApi />
 	</n-loading-bar-provider>
 	
-	<!-- 浏览器加载进度条 LoadingBar -->
+	<!-- 提示注意框 Notification -->
 	<n-notification-provider :max="3">
 	  <NotificationApi />
 	</n-notification-provider>

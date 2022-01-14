@@ -24,13 +24,6 @@
             Upload,
             Result
         },
-
-        setup() {
-
-
-            return {
-            }
-        }
     };
 </script>
 

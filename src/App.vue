@@ -75,12 +75,12 @@
         return false
       }
       // 禁止f12
-      document.onkeydown = function (e) {
-        if (e.keyCode == 123) {
-          window.$message.warning('禁止f12')
-          return false
-        }
-      }
+      // document.onkeydown = function (e) {
+      //   if (e.keyCode == 123) {
+      //     window.$message.warning('禁止f12')
+      //     return false
+      //   }
+      // }
 
 
       return {

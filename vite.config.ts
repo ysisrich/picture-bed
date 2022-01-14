@@ -7,9 +7,10 @@ import viteCompression from 'vite-plugin-compression'
 // const BaseUrl:string = import.meta.env.BASE_URL
 
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './', //打包路径
+  base: '/', //打包路径
   mode:'',
   plugins: [
     vue(),
@@ -56,13 +57,18 @@ export default defineConfig({
   },
   // 生产环境去除 console debugger
   build:{
-    terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true
-        }
-    }
+	target: 'modules',
+	outDir: 'dist', //指定输出路径
+	assetsDir: 'assets', // 指定生成静态资源的存放路径
+	minify: 'terser', // 混淆器，terser构建后文件体积更小
+	terserOptions: { // 去除console
+	compress: {
+		drop_console: true,
+		drop_debugger: true
+	  }
+	}
   }
+  
   
 
 })

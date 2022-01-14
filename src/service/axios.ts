@@ -55,7 +55,7 @@ const errorCode: object = {
   "422": "验证失败",
   "404": "资源未找到",
   "409": "资源冲突",
-  "400": "sha字段为空"
+  "400": "sha字段为空",
 };
 
 // 响应拦截
@@ -73,6 +73,11 @@ axios.interceptors.response.use(
   },
   (error) => {
 	  console.log(error)
+	if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 ) {
+		// eslint-disable-next-line
+		$message.error("请求超时，请检查网络再重新连接！");
+		return Promise.reject('请检查网络再重新连接')
+	}
     const status: number = error.response.status;
     if (status) {
       // @ts-ignore
