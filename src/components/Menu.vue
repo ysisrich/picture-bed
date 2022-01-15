@@ -29,9 +29,7 @@
         menuOptions: []
       })
 
-      const renderIcon = (icon) => {
-        return () => h(NIcon, null, { default: () => h(icon) })
-      }
+      const renderIcon = (icon) => () => h(NIcon, null, { default: () => h(icon) })
       const MESSAGE = {}
 
 
@@ -80,7 +78,6 @@
         // console.log(value)
         // 登录
         if (value == 'login') {
-          console.log(MESSAGE.underDevelopment)
           window.$message.info(MESSAGE.underDevelopment)
         }
         // 上传
