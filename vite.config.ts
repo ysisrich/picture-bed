@@ -9,7 +9,7 @@ import viteCompression from 'vite-plugin-compression'
 
 
 export default defineConfig({
-  base: '/', //打包路径
+  base: './', //打包路径
   mode:'',
   plugins: [
     vue(),

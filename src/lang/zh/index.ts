@@ -37,5 +37,9 @@ export default {
         forbidRightKey:'禁止右键',
         forbidF12:'禁止F12',
     },
-    copy:'复制'
+    copy:'复制',
+    // 登录
+    login:{
+        sign_in:'登录',
+    }
 }

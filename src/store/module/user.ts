@@ -40,8 +40,6 @@ export default {
       this.git = Cookie.getCookie("repoType") == 'Github' ? Github : Gitee
       this.repoType = Cookie.getCookie("repoType")
     },
-    // 登录
-    login() {},
     // 获取仓库详情
     async getUserRepositoryInfo() {
       return new Promise((resolve,reject)=>{
@@ -54,5 +52,7 @@ export default {
         })
       })
     },
+    // 登录
+    login() {},
   },
 };

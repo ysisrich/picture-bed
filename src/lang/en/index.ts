@@ -4,21 +4,21 @@
 
 export default {
     menu:{
-        upload:'upload',
-        login:'login',
-        language:'language',
-        theme:'theme',
-        about:'about'
+        upload:'Upload',
+        login:'Login',
+        language:'Language',
+        theme:'Theme',
+        about:'About'
     },
     // 公告
     notice:{
-        one:'1. Visitors are limited to uploading 6 pictures per day, and each picture cannot exceed 2M. The uploaded pictures will be displayed publicly, and illegal pictures such as gambling and pornography are prohibited',
+        one:'1. Visitors are limited to uploading 6 pictures per day, and each picture cannot exceed 2M. Prohibit uploading gambling, pornography and other pictures',
         two:'2. The size of a single GitHub map bed warehouse cannot exceed 1 GB, otherwise it is easy to be closed. It is recommended to change the warehouse before 1 GB',
         three:'3. The jSD-accelerated single file size is 50M, which means that the single file size uploaded by the login account should not exceed 50MB',
         four:'4. Gitee requires password authentication to access pictures exceeding 1 MB. Therefore, Gitee can upload only 1 MB of pictures'
     },
-    attention:'attention',
-    repositories:'repositories',
+    attention:'Attention',
+    repositories:'Repositories',
     clickOrDragToUpload:'Click or drag the file to the area to upload',
     pictureType:'The supported image formats include PNG, JPG, JPEG, GIF, and ICO. The size of a single image cannot exceed 50M',
 
@@ -38,5 +38,9 @@ export default {
         forbidF12:'No F12',
     },
 
-    copy:'copy'
+    copy:'copy',
+    // 登录
+    login:{
+        sign_in:'Sign In',
+    }
 }

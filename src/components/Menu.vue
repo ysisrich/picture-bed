@@ -7,6 +7,7 @@
   import { useI18n } from 'vue-i18n'
 
   import { defineComponent, h, ref, reactive, toRefs, watch, computed } from 'vue'
+  import {  useRouter } from 'vue-router'
   import { NIcon } from 'naive-ui'
   import {
     CloudUploadOutline as CloudUploadOutlineIcon,
@@ -17,16 +18,16 @@
   } from '@vicons/ionicons5'
 
 
-
   export default {
     name: 'Menu',
-
     setup() {
       const { t, locale } = useI18n()
+      const router = useRouter()
 
       let data = reactive({
         activeKey: '',
-        menuOptions: []
+        menuOptions: [],
+        showModal:false
       })
 
       const renderIcon = (icon) => () => h(NIcon, null, { default: () => h(icon) })
@@ -78,7 +79,7 @@
         // console.log(value)
         // 登录
         if (value == 'login') {
-          window.$message.info(MESSAGE.underDevelopment)
+          router.push({name:'Login'})
         }
         // 上传
         else if (value == 'upload') {
