@@ -5,7 +5,7 @@
 
 import Cookie from "@/utils/Cookie";
 import i18n from '@/lang/index'
-import { getUserRepositoryInfo } from "@/service/api";
+import { getUserRepositoryInfo,getOauthUserInfo,_getOauthUserInfo } from "@/service/api";
 
 import Gitee from './gitee'
 import Github from './github'
@@ -18,7 +18,7 @@ export default {
     experienceNumber: Cookie.getCookie("experienceNumber") || 6,
     userType: 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
-    git:Cookie.getCookie("repoType") == 'Github' ? Github : Gitee
+    git:Cookie.getCookie("repoType") == 'Github' ? Github : Gitee,
   }),
   getters: {},
   actions: {
@@ -35,10 +35,10 @@ export default {
       }
     },
     // 切换仓库 gitee github 
-    changeRepoType(){
-      Cookie.setCookie('repoType',Cookie.getCookie('repoType') == 'Github' ? 'Gitee' :'Github')
-      this.git = Cookie.getCookie("repoType") == 'Github' ? Github : Gitee
-      this.repoType = Cookie.getCookie("repoType")
+    changeRepoType(repoType){
+      Cookie.setCookie('repoType',repoType)
+      this.git = repoType == 'Github' ? Github : Gitee
+      this.repoType = repoType
     },
     // 获取仓库详情
     async getUserRepositoryInfo() {
@@ -53,6 +53,36 @@ export default {
       })
     },
     // 登录
-    login() {},
+    login(params) {
+      console.log(params)
+      const {loginType,repoType,expirationTime,token} = params
+      if(loginType == 'token' && repoType == 'Github'){
+        this.changeRepoType(repoType)
+        this.git.token = token
+        getOauthUserInfo().then(res=>{
+          console.log(res)
+          if(res.status == 200){
+            this.userType = 1
+            this.git.userInfo = res.data
+            Cookie.setCookie('token',token,expirationTime || 36500 )
+            window.$message.success(i18n.global.t('login.loginSuccess'))
+          }
+        })
+      }
+
+      if(loginType == 'token' && repoType == 'Gitee'){
+        this.changeRepoType(repoType)
+        this.git.token = token
+        _getOauthUserInfo().then(res=>{
+          console.log(res)
+          if(res.status == 200){
+            this.userType = 1
+            this.git.userInfo = res.data
+            Cookie.setCookie('token',token,expirationTime || 36500 )
+            window.$message.success(i18n.global.t('login.loginSuccess'))
+          }
+        })
+      }
+    },
   },
 };

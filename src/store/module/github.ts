@@ -7,7 +7,7 @@ const baseUrl = 'https://api.github.com'
 
 export default {
 	baseUrl,
-    token: "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",
+    token: Cookie.getCookie('token') || "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",
     auth: {
       username: "YsisNo1",
       password: "***************",

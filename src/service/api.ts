@@ -64,7 +64,14 @@ export const getUserRepositoryInfo = (params: undefined | object, query: any) =>
  */
   export const createNewFileOrUpdateFile = (params: undefined | object, query: any) => request.put(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
 
-
+/**
+  * @author: yangs
+  * @query: /user
+  * @params {}
+  * @description: 获取授权用户的资料
+  */
+ export const getOauthUserInfo = (params: undefined | object, query: any) => request.get(`/user`, params)
+ 
 
 
 /**
@@ -103,3 +110,12 @@ export const getUserRepositoryInfo = (params: undefined | object, query: any) =>
   */
   export const _createNewFileOrUpdateFile = (params: undefined | object, query: any) => request.post(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
  
+/**
+  * @author: yangs
+  * @query: /user
+  * @params {}
+  * @description: 获取授权用户的资料
+  */
+ export const _getOauthUserInfo = (params: undefined | object, query: any) => request.get(`/user`, params)
+ 
+  

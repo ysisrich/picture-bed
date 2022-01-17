@@ -10,12 +10,17 @@ export default {
         theme:'主题',
         about:'关于'
     },
+
     // 公告
     notice:{
         one:'1. 游客限制每日上传6张，单张图片不能超过2M，上传的图片将公开显示，禁止上传博彩、色情等违法信息的图片',
         two:'2. GitHub 单个图床仓库大小不能超过1G，否则容易被封，建议在 1G 之前就换个仓库',
         three:'3. JSD 加速的单文件大小为 50M，因此也就意味着登录账户上传的单文件大小不超过 50MB',
-        four:'4. Gitee 访问超过1M的图片需要密码登录认证，所以Gitee上传图片限制1M'
+        four:'4. Gitee 访问超过1M的图片需要密码登录认证，所以Gitee上传图片限制1M',
+
+        _one:'1. OAuth2 token github个人账号设置->开发者设置->个人token里：创建一个token',
+        _two:'2. OAuth2 key/secret github个人账号设置->开发者设置->创建自己的OAuth app，然后得到一对client_id和client_secret',
+        _three:'3. Basic authentication 使用用户名 密码',
     },
     attention:'注意',
     repositories:'仓库',
@@ -41,5 +46,22 @@ export default {
     // 登录
     login:{
         sign_in:'登录',
+        username:'用户名',
+        password:'密码',
+        expirationTime:'过期时间',
+        loginSuccess:'登录成功！'
+    },
+
+    // 错误响应
+    errorResponse:{
+        "304": "未做任何修改",
+        "401": "对不起，您没有权限访问",
+        "403": "禁止访问",
+        "422": "验证失败",
+        "404": "资源未找到",
+        "409": "资源冲突",
+        "400": "sha字段为空",
+
+        "1011":"请求超时，请检查网络再重新连接！"
     }
 }

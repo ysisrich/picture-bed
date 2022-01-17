@@ -5,7 +5,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 // 导入 Store
 import { useUser } from "@/store/index";
-
+import i18n from '@/lang/index'
 import Cookie from "@/utils/Cookie";
 Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
 
@@ -49,13 +49,15 @@ axios.interceptors.request.use(
 );
 
 const errorCode: object = {
-  "304": "未做任何修改",
-  "401": "对不起，您没有权限访问",
-  "403": "禁止访问",
-  "422": "验证失败",
-  "404": "资源未找到",
-  "409": "资源冲突",
-  "400": "sha字段为空",
+  "304": i18n.global.t('errorResponse.304'),
+  "401": i18n.global.t('errorResponse.401'),
+  "403": i18n.global.t('errorResponse.403'),
+  "422": i18n.global.t('errorResponse.422'),
+  "404": i18n.global.t('errorResponse.404'),
+  "409": i18n.global.t('errorResponse.409'),
+  "400": i18n.global.t('errorResponse.400'),
+
+  "1011":i18n.global.t('errorResponse.1011'),
 };
 
 // 响应拦截
@@ -75,7 +77,7 @@ axios.interceptors.response.use(
 	  console.log(error)
 	if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 ) {
 		// eslint-disable-next-line
-		$message.error("请求超时，请检查网络再重新连接！");
+		$message.error(errorCode['1011']);
 		return Promise.reject('请检查网络再重新连接')
 	}
     const status: number = error.response.status;

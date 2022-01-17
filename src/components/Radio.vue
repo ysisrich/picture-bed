@@ -25,8 +25,9 @@
                 ],
             })
 
-            const changeRepoType = (e) => {
-                useUser().changeRepoType()
+            const changeRepoType = (repoType) => {
+                console.log(repoType)
+                useUser().changeRepoType(repoType)
             }
 
             return {

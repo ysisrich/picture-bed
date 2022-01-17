@@ -74,7 +74,6 @@
     ::v-deep(.n-card__content) {
         display: flex;
 
-
         .links {
             display: flex;
             margin-bottom: 15px;
@@ -92,8 +91,6 @@
             .n-input__input {
                 text-align: left;
             }
-
         }
-
     }
 </style>

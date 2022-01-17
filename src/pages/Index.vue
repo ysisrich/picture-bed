@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <n-space vertical>
-            <Alert />
+            <Alert currentPage="index" />
             <Radio />
             <Upload />
             <Result />

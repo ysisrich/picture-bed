@@ -1,28 +1,33 @@
 <template>
   <div class="content">
+    <n-space vertical>
+      <Alert currentPage="login" />
       <LoginForm />
+    </n-space>
   </div>
 </template>
 
 <script>
-// 自定义组件
-import LoginForm from "@/components/login/Index.vue";
+  // 自定义组件
+  import LoginForm from "@/components/login/Index.vue";
+  import Alert from '@/components/Alert.vue'
 
-export default {
-  name: "Index",
-  components: {
-    LoginForm,
-  },
-};
+  export default {
+    name: "Index",
+    components: {
+      LoginForm,
+      Alert
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.content {
-  width: $main-width;
-  height: calc(100vh - 168px);
-  margin: auto;
-  text-align: center;
-  box-sizing: border-box;
-  @include flx(center,center);
-}
+  .content {
+    width: $main-width;
+    height: calc(100vh - 168px);
+    margin: auto;
+    text-align: center;
+    box-sizing: border-box;
+    /* @include flx(center,center); */
+  }
 </style>

@@ -57,18 +57,21 @@
       const theme = computed(() => useSetting().theme)
       const language = computed(() => useSetting().language)
       const experienceNumber = computed(() => useUser().experienceNumber)
+      const userType = computed(() => useUser().userType)
 
       const { t, locale } = useI18n()
       const local = computed(() => locale.value)
 
       onMounted(() => {
-        setTimeout(() => {
-          window.$notification.success({
-            title: t('message.title1'),
-            content: t('message.content', { time: experienceNumber.value }),
-            duration: 10000
+        if (!userType) {
+          setTimeout(() => {
+            window.$notification.success({
+              title: t('message.title1'),
+              content: t('message.content', { time: experienceNumber.value }),
+              duration: 10000
+            })
           })
-        })
+        }
       })
 
       // 禁止右键
