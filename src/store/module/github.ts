@@ -1,5 +1,5 @@
 /*
-* github 仓库信息
+* github 账号仓库信息
 */
 import Cookie from "@/utils/Cookie";
 

@@ -70,6 +70,11 @@
             label: t('menu.about'),
             key: 'about',
             icon: renderIcon(AlertCircleOutlineIcon),
+            children: [
+              { label: '本站介绍', key: 'site_introduced', },
+              { label: '纪念相册', key: 'memorial_album', },
+              { label: '更多推荐', key: 'more_recommended', }
+            ]
           },
         ]
       }, { immediate: true })
@@ -79,7 +84,8 @@
         // console.log(value)
         // 登录
         if (value == 'login') {
-          router.push({ name: 'Login' })
+          window.$message.info(MESSAGE.underDevelopment)
+          // router.push({ name: 'Login' })
         }
         // 上传
         else if (value == 'upload') {
@@ -96,7 +102,7 @@
           useSetting().changeConfig({ key: 'theme', value })
         }
         // 关于
-        else if (value == 'about') {
+        else if (value == 'site_introduced' || value == 'memorial_album' || value == 'more_recommended') {
           window.$message.info(MESSAGE.underDevelopment)
         }
       }

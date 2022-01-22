@@ -5,10 +5,16 @@
 
 import Cookie from "@/utils/Cookie";
 import i18n from '@/lang/index'
-import { getUserRepositoryInfo,getOauthUserInfo,_getOauthUserInfo } from "@/service/api";
+import Api from "@/service/api";
+
 
 import Gitee from './gitee'
 import Github from './github'
+import upyun from './upyun'
+
+const service = {
+  Gitee,Github,upyun
+}
 
 
 export default {
@@ -18,7 +24,7 @@ export default {
     experienceNumber: Cookie.getCookie("experienceNumber") || 6,
     userType: 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
-    git:Cookie.getCookie("repoType") == 'Github' ? Github : Gitee,
+    git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
   }),
   getters: {},
   actions: {
@@ -37,13 +43,20 @@ export default {
     // 切换仓库 gitee github 
     changeRepoType(repoType){
       Cookie.setCookie('repoType',repoType)
-      this.git = repoType == 'Github' ? Github : Gitee
+      this.git = service[repoType]
       this.repoType = repoType
+
+      if(repoType == 'upyun'){
+        
+        Api.getUpyunToken(this.git.auth).then(res=>{
+          console.log('upyun',res)
+        })
+      }
     },
     // 获取仓库详情
     async getUserRepositoryInfo() {
       return new Promise((resolve,reject)=>{
-        getUserRepositoryInfo({},this.git.repoInfo).then(res=>{
+        Api.getUserRepositoryInfo({},this.git.repoInfo).then(res=>{
           if(res.status == 200){
             resolve(res)
           }else{
@@ -59,7 +72,7 @@ export default {
       if(loginType == 'token' && repoType == 'Github'){
         this.changeRepoType(repoType)
         this.git.token = token
-        getOauthUserInfo().then(res=>{
+        Api.getOauthUserInfo().then(res=>{
           console.log(res)
           if(res.status == 200){
             this.userType = 1
@@ -73,7 +86,7 @@ export default {
       if(loginType == 'token' && repoType == 'Gitee'){
         this.changeRepoType(repoType)
         this.git.token = token
-        _getOauthUserInfo().then(res=>{
+        Api._getOauthUserInfo().then(res=>{
           console.log(res)
           if(res.status == 200){
             this.userType = 1

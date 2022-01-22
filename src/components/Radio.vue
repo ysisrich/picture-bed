@@ -21,12 +21,14 @@
                 value: Cookie.getCookie('repoType'),
                 types: [
                     { value: "Github", label: "Github" },
-                    { value: 'Gitee', label: 'Gitee' }
+                    { value: 'Gitee', label: 'Gitee' },
+                    { value: 'OSS', label: 'OSS' },
+                    { value: 'upyun', label: '又拍云' }
+
                 ],
             })
 
             const changeRepoType = (repoType) => {
-                console.log(repoType)
                 useUser().changeRepoType(repoType)
             }
 

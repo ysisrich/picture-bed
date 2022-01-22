@@ -2,7 +2,13 @@
     <div class="foot">
         <div id="websitTime"></div>
         <div>
-            <span>© {{projectName}} | {{record}} </span>
+            <div>© {{projectName}} | {{record}} </div>
+            <div>本网站由
+                <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                    <img class="upyun_logo" src="@/assets/img/upyun_logo.png" alt="">
+                </a>
+                提供CDN加速/云存储服务
+            </div>
             <span class="tags">
                 <a v-for="(item,index) in shields" :key="`shields-${index}`" target="_blank" :href="item.href">
                     <img :src="item.src" :title="item.title">
@@ -34,6 +40,11 @@
                         href: 'https://www.jsdelivr.com/'
                     },
                     {
+                        title: '本站使用又拍云为静态资源提供CDN加速',
+                        src: 'https://img.shields.io/badge/CDN-又拍云-0098fd?style=flat&amp;logo=upyun',
+                        href: 'https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral'
+                    },
+                    {
                         title: '本站项目由Gtihub托管',
                         src: 'https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub',
                         href: 'https://github.com/'
@@ -60,6 +71,11 @@
             a {
                 margin-left: 10px;
             }
+        }
+
+        .upyun_logo {
+            /* width: ; */
+            height: 20px;
         }
     }
 </style>

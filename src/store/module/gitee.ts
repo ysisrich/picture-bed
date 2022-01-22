@@ -1,5 +1,5 @@
 /*
-* gitee 仓库信息
+* gitee 账号仓库信息
 */
 import Cookie from "@/utils/Cookie";
 

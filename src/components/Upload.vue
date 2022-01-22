@@ -17,7 +17,7 @@
 	import { reactive, toRefs, watch } from 'vue'
 	import { CloudUploadOutline as CloudUploadOutlineIcon } from '@vicons/ionicons5'
 	import GenNonDuplicateID from '@/utils/uniqueID'
-	import { createNewFileOrUpdateFile, _createNewFileOrUpdateFile } from '@/service/api';
+	import Api from "@/service/api";
 	import { useUser, useContent } from '@/store/index'
 	import { useI18n } from 'vue-i18n'
 
@@ -129,7 +129,7 @@
 					}
 
 					if (useUser().repoType == 'Github') {
-						createNewFileOrUpdateFile(params, query).then(res => {
+						Api.createNewFileOrUpdateFile(params, query).then(res => {
 							console.log(res)
 							if (res.status == 201) {
 								onFinish(res)
@@ -143,7 +143,7 @@
 							}
 						})
 					} else {
-						_createNewFileOrUpdateFile(params, query).then(res => {
+						Api._createNewFileOrUpdateFile(params, query).then(res => {
 							if (res.status == 201) {
 								onFinish(res)
 								window.$message.success(MESSAGE.uploadSuccess)
