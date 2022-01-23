@@ -11,9 +11,10 @@ import Api from "@/service/api";
 import Gitee from './gitee'
 import Github from './github'
 import upyun from './upyun'
+import OSS from './oss'
 
 const service = {
-  Gitee,Github,upyun
+  Gitee,Github,upyun,OSS
 }
 
 
@@ -46,12 +47,12 @@ export default {
       this.git = service[repoType]
       this.repoType = repoType
 
-      if(repoType == 'upyun'){
+      // if(repoType == 'upyun'){
         
-        Api.getUpyunToken(this.git.auth).then(res=>{
-          console.log('upyun',res)
-        })
-      }
+      //   Api.getUpyunToken(this.git.auth).then(res=>{
+      //     console.log('upyun',res)
+      //   })
+      // }
     },
     // 获取仓库详情
     async getUserRepositoryInfo() {

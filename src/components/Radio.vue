@@ -10,23 +10,33 @@
 </template>
 
 <script>
-    import { ref, reactive, toRefs } from 'vue'
+    import { ref, reactive, toRefs,watch } from 'vue'
     import { useUser } from '@/store/index'
     import Cookie from '@/utils/Cookie'
+    import { useI18n } from 'vue-i18n'
     export default {
         name: 'Radio',
 
         setup() {
+            const { t, locale } = useI18n()
             let data = reactive({
                 value: Cookie.getCookie('repoType'),
                 types: [
                     { value: "Github", label: "Github" },
                     { value: 'Gitee', label: 'Gitee' },
                     { value: 'OSS', label: 'OSS' },
-                    { value: 'upyun', label: '又拍云' }
+                    { value: 'upyun', label: t('upyun') }
 
                 ],
             })
+            watch(locale, () => {
+                data.types.some(item => {
+                    if(item.value == 'upyun'){
+                        item.label = t('upyun')
+                        return true
+                    }
+                }) 
+            }, { immediate: true })
 
             const changeRepoType = (repoType) => {
                 useUser().changeRepoType(repoType)

@@ -25,6 +25,7 @@ export default {
     repositories:'Repositories',
     clickOrDragToUpload:'Click or drag the file to the area to upload',
     pictureType:'The supported image formats include PNG, JPG, JPEG, GIF, and ICO. The size of a single image cannot exceed 50M',
+    upyun:'Upyun',
 
     // 消息
     message:{

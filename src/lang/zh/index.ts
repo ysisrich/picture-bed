@@ -26,6 +26,7 @@ export default {
     repositories:'仓库',
     clickOrDragToUpload:'点击或者拖动文件到该区域来上传',
     pictureType:'支持的图片格式有png、jpg、jpeg、gif、ico等，单张图片大小不能超过50M',
+    upyun:'又拍云',
 
     // 消息
     message:{

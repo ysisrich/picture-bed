@@ -63,7 +63,7 @@
       const local = computed(() => locale.value)
 
       onMounted(() => {
-        if (!userType) {
+        if (userType || !userType.value) {
           setTimeout(() => {
             window.$notification.success({
               title: t('message.title1'),
@@ -80,12 +80,12 @@
         return false
       }
       // 禁止f12
-      // document.onkeydown = function (e) {
-      //   if (e.keyCode == 123) {
-      //     window.$message.warning(t('message.forbidF12'))
-      //     return false
-      //   }
-      // }
+      document.onkeydown = function (e) {
+        if (e.keyCode == 123) {
+          window.$message.warning(t('message.forbidF12'))
+          return false
+        }
+      }
 
 
       return {
