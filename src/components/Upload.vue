@@ -59,10 +59,10 @@
 				// console.log('文件列表', fileList)
 				useContent().setContent({ content: '' })
 
-				if(useUser().repoType == 'OSS' || useUser().repoType == 'upyun'){
-					window.$message.info(MESSAGE.underDevelopment)
-					return false
-				}
+				// if(useUser().repoType == 'OSS' || useUser().repoType == 'upyun'){
+				// 	window.$message.info(MESSAGE.underDevelopment)
+				// 	return false
+				// }
 
 				// 限制图床仓库大小
 				let res = await useUser().getUserRepositoryInfo()

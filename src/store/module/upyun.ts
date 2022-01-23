@@ -2,17 +2,17 @@
 * upyun 又拍云账号信息
 */
 import Cookie from "@/utils/Cookie";
+//MD5加密
+import md5 from 'js-md5';
 
-const baseUrl = 'https://v0.api.upyun.com'
-
+// icrDWTOpA4Xjg9d7A3QlyldclTsP3X3r
 export default {
-	baseUrl,
-    token: Cookie.getCookie('token') || "v41xH0QoXbVJU1STsvehNnBYV7EuWpdg",
+    token: Cookie.getCookie('token') || "icrDWTOpA4Xjg9d7A3QlyldclTsP3X3r",
     auth: {
       username: "yangs",
-      password: 'v41xH0QoXbVJU1STsvehNnBYV7EuWpdg',
-      code: "stringValue",
-      name: "流量查询 token",
+      password: 'icrDWTOpA4Xjg9d7A3QlyldclTsP3X3r',
+      code: "1111222",
+      name: "token",
       scope: "global",
     },
     userInfo: {},

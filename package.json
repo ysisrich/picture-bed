@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "js-md5": "^0.7.3",
     "naive-ui": "^2.23.2",
     "pinia": "^2.0.0-rc.10",
     "vfonts": "0.0.3",

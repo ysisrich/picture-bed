@@ -10,10 +10,10 @@ import Cookie from "@/utils/Cookie";
 Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
 
 const baseUrl ={
-  Github:'https://api.github.com',
-  Gitee:'https://gitee.com/api/v5',
-  upyun:'https://api.upyun.com',
-  OSS:''
+  Github:'/api_github',
+  Gitee:'/api_gitee',
+  upyun:'/api_upyun',
+  OSS:'/api_oss'
 }
 
 axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
@@ -30,15 +30,18 @@ axios.interceptors.request.use(
     const token: string = useUser().git.token;
     const auth: object = useUser().git.auth;
 
+    // 又拍云
+    if(Cookie.getCookie('repoType') == 'upyun'){
+      // config.headers["Authorization"] = token;
+      return config
+    }
+
     if (token) {
       //@ts-ignore
       config.headers["Authorization"] = "token " + token;
     }
 
-    // 又拍云
-    // if(Cookie.getCookie('repoType') == 'upyun'){
-    //   config.headers["Authorization"] = token;
-    // }
+    
 
     // `auth` 表示应该使用 HTTP 基础验证，并提供凭据
     // 这将设置一个 `Authorization` 头，覆写掉现有的任意使用 `headers` 设置的自定义 `Authorization`头
