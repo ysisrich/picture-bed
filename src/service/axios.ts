@@ -7,16 +7,30 @@ import axios, { AxiosRequestConfig } from "axios";
 import { useUser } from "@/store/index";
 import i18n from '@/lang/index'
 import Cookie from "@/utils/Cookie";
+import Host from '../../config/host';
+const { Gitee, Github, Upyun, OSS } = Host
 Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
 
-const baseUrl ={
-  Github:'/api_github',
-  Gitee:'/api_gitee',
-  upyun:'/api_upyun',
-  OSS:'/api_oss'
+
+
+
+// 当前环境 development production
+const NODE_ENV:string = import.meta.env.VITE_NODE_ENV
+
+const setBaseUrl =  () => {
+  const type:string = Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github') || 'Github'
+  let API = type == 'Github' ? Github : type == 'Gitee' ? Gitee : 
+    type == 'OSS' ? OSS : type == 'Upyun' ? Upyun : ''
+
+  if(NODE_ENV === 'development'){
+    axios.defaults.baseURL = API.dev.API_BaseUrl
+  }else if(NODE_ENV === 'production'){
+    axios.defaults.baseURL = API.build.API_BaseUrl
+  }else{
+    axios.defaults.baseURL = 'test'
+  }
 }
 
-axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
 axios.defaults.timeout = 10000; // 设置超时时长
 //@ts-ignore
 axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
@@ -117,7 +131,7 @@ interface Axios {
 const request: Axios = {
   get(url, params) {
     return new Promise((resolve, reject) => {
-      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
+      setBaseUrl()
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -136,7 +150,7 @@ const request: Axios = {
   },
   post(url, params) {
     return new Promise((resolve, reject) => {
-      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
+      setBaseUrl()
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -155,7 +169,7 @@ const request: Axios = {
   },
   patch(url, params) {
     return new Promise((resolve, reject) => {
-      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
+      setBaseUrl()
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -174,7 +188,7 @@ const request: Axios = {
   },
   put(url, params) {
     return new Promise((resolve, reject) => {
-      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
+      setBaseUrl()
       // @ts-ignore
       window.$loadingBar.start();
       axios
@@ -193,7 +207,7 @@ const request: Axios = {
   },
   delete(url, params) {
     return new Promise((resolve, reject) => {
-      axios.defaults.baseURL = baseUrl[Cookie.getCookie('repoType')]
+      setBaseUrl()
       // @ts-ignore
       window.$loadingBar.start();
       axios

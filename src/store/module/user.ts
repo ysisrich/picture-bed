@@ -6,16 +6,24 @@
 import Cookie from "@/utils/Cookie";
 import i18n from '@/lang/index'
 import Api from "@/service/api";
+// 当前环境 development production
+const NODE_ENV:string = import.meta.env.VITE_NODE_ENV
 
 
-import Gitee from './gitee'
-import Github from './github'
-import upyun from './upyun'
-import OSS from './oss'
+import Host from '../../../config/host'
+const service = {}
 
-const service = {
-  Gitee,Github,upyun,OSS
+
+if(NODE_ENV === 'development'){
+  for (const key in Host) {
+    service[key] = Host[key].dev
+  }
+}else if(NODE_ENV === 'production'){
+  for (const key in Host) {
+    service[key] = Host[key].build
+  }
 }
+
 
 
 export default {
@@ -47,7 +55,7 @@ export default {
       this.git = service[repoType]
       this.repoType = repoType
 
-      if(repoType == 'upyun'){
+      if(repoType == 'Upyun'){
         
         Api.getUpyunToken(this.git.auth).then(res=>{
           console.log('upyun',res)

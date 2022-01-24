@@ -2,13 +2,13 @@
     <div class="foot">
         <div id="websitTime"></div>
         <div>
-            <div>© {{projectName}} | {{record}} </div>
-            <div>本网站由
+            <div> {{record}} </div>
+            <!-- <div>本网站由
                 <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
                     <img class="upyun_logo" src="@/assets/img/upyun_logo.png" alt="">
                 </a>
                 提供CDN加速/云存储服务
-            </div>
+            </div> -->
             <span class="tags">
                 <a v-for="(item,index) in shields" :key="`shields-${index}`" target="_blank" :href="item.href">
                     <img :src="item.src" :title="item.title">
