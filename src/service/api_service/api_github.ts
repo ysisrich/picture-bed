@@ -63,7 +63,7 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
  */
   const createRepo = (params: undefined | object, query: any) => request.post(`/user/repos`, params)
 
- /**
+ /** 
  * @author: yangs
  * @query: /repos/{owner}/{repo}
  * @params {}
