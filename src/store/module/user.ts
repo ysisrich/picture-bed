@@ -24,13 +24,13 @@ if(NODE_ENV === 'development'){
   }
 }
 
-
+// btoa  编码 atob 解码
 
 export default {
   id: "userGlobalState",
   // state: 返回对象的函数
   state: () => ({
-    experienceNumber: Cookie.getCookie("experienceNumber") || 6,
+    experienceNumber: Cookie.getCookie("experienceNumber") && atob(Cookie.getCookie("experienceNumber")) || 6,
     userType: 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
     git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
@@ -41,7 +41,7 @@ export default {
     visitorUpload() {
       if (this.experienceNumber) {
         --this.experienceNumber;
-        Cookie.setCookie("experienceNumber", this.experienceNumber,-1);
+        Cookie.setCookie("experienceNumber", btoa(this.experienceNumber),-1);
         window.$notification.success({
           title: i18n.global.t('message.uploadSuccess'),
           content: i18n.global.t('message.content', { time: this.experienceNumber }),
