@@ -57,11 +57,43 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
 
  /**
  * @author: yangs
+ * @query: /user/repos
+ * @params {}
+ * @description: 为经过身份验证的用户创建存储库
+ */
+  const createRepo = (params: undefined | object, query: any) => request.post(`/user/repos`, params)
+
+ /**
+ * @author: yangs
+ * @query: /repos/{owner}/{repo}
+ * @params {}
+ * @description: 删除存储库
+ */
+ const deleteRepo = (params: undefined | object, query: any) => request.delete(`/repos/${query.owner}/${query.repo}`, params)
+
+ /**
+ * @author: yangs
  * @query:  /repos/{owner}/{repo}/contents/{path}
  * @params {}
  * @description: 创建新文件或替换存储库中的现有文件
  */
   const createNewFileOrUpdateFile = (params: undefined | object, query: any) => request.put(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
+
+  /**
+ * @author: yangs
+ * @query:  /repos/{owner}/{repo}/contents/{path}
+ * @params {}
+ * @description: 删除存储库中的文件
+ */
+   const deleteFile = (params: undefined | object, query: any) => request.delete(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
+
+  /**
+ * @author: yangs
+ * @query:  /repos/{owner}/{repo}/contents/{path}
+ * @params {}
+ * @description: 获取存储库中文件或目录的内容
+ */
+  const getFileOrDireact = (params: undefined | object, query: any) => request.get(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
 
 /**
   * @author: yangs
@@ -71,6 +103,9 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
   */
  const getOauthUserInfo = (params: undefined | object, query: any) => request.get(`/user`, params)
  
+
+
+
 
  export default {
     getUserGithubInfo,
