@@ -6,6 +6,8 @@ import viteCompression from 'vite-plugin-compression'
 import Host from './config/host'
 const {Github, Gitee, OSS, Upyun} = Host
 
+console.log(Host)
+
 export default (({mode})=>{
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
@@ -64,7 +66,7 @@ export default (({mode})=>{
           target: Gitee.build.API_BaseUrl, //目标接口域名
           secure: true, //false为http访问，true为https访问
           changeOrigin: true, //是否跨域
-          rewrite: path => path => {
+          rewrite:  path => {
             let reg = new RegExp(`^\\${[Gitee.dev.API_BaseUrl]}`, 'g')
             return path.replace(reg, '')
           },
@@ -77,7 +79,7 @@ export default (({mode})=>{
           target: Upyun.build.API_BaseUrl, //目标接口域名
           secure: true, //false为http访问，true为https访问
           changeOrigin: true, //是否跨域
-          rewrite: path => path => {
+          rewrite:  path => {
             let reg = new RegExp(`^\\${[Upyun.dev.API_BaseUrl]}`, 'g')
             return path.replace(reg, '')
           },

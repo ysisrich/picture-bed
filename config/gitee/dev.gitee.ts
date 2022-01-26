@@ -1,5 +1,7 @@
 /*
 * gitee 账号仓库信息
+*
+* 开发环境配置 - dev
 */
 
 const API_BaseUrl:string = '/api_gitee';

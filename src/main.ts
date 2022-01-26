@@ -84,9 +84,5 @@ const naive = create({ components });
 
 const app = createApp(App);
 
-app.use(createPinia());
-app.use(i18n)
-app.use(router);
-app.use(naive);
+app.use(createPinia()).use(i18n).use(router).use(naive).mount("#app");
 
-app.mount("#app");

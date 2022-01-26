@@ -46,6 +46,8 @@
     //   textColor: '#FF0000'
     // }
   }
+
+
   export default {
     name: 'app',
     components: {
@@ -61,6 +63,7 @@
 
       const { t, locale } = useI18n()
       const local = computed(() => locale.value)
+      const NODE_ENV = import.meta.env.VITE_NODE_ENV
 
       onMounted(() => {
         if (userType || !userType.value) {
@@ -74,18 +77,51 @@
         }
       })
 
-      // 禁止右键
-      document.oncontextmenu = function () {
-        window.$message.warning(t('message.forbidRightKey'))
-        return false
+
+
+      // 禁止f12  禁止右键
+      if (NODE_ENV == 'production') {
+        document.oncontextmenu = function () {
+          window.$message.warning(t('message.forbidRightKey'))
+          return false
+        }
+        document.onkeydown = function (e) {
+          if (e.keyCode == 123) {
+            window.$message.warning(t('message.forbidF12'))
+            return false
+          }
+        }
+
+
+        const Variable = {
+          console,
+          message: '球球了，别搞我这个破站\n有什么事直接找我好啦\n加qq联系:2048400850',
+          style: {
+            'font-size': '40px',
+            background: 'red',
+            color: 'yellow',
+            fontWeight: 900
+          }
+        }
+
+        let styles = ''
+        for (let key in Variable.style) {
+          styles += `${key}:${Variable.style[key]};`
+        }
+
+        Variable['console'].log(`%c${Variable.message}`, styles)
+
+        var threshold = 160;
+        setInterval(() => {
+          if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            debugger;
+          }
+        })
+
       }
-      // 禁止f12
-      // document.onkeydown = function (e) {
-      //   if (e.keyCode == 123) {
-      //     window.$message.warning(t('message.forbidF12'))
-      //     return false
-      //   }
-      // }
+
+
+
 
 
       return {
