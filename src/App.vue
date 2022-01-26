@@ -81,7 +81,7 @@
 
 
       // 禁止f12  禁止右键
-      if (NODE_ENV == 'production') {
+      if (NODE_ENV === 'production') {
         document.oncontextmenu = function () {
           window.$message.warning(t('message.forbidRightKey'))
           return false
@@ -99,9 +99,10 @@
           message: '球球了，别搞我这个破站\n有什么事直接找我好啦\n加qq联系:2048400850',
           style: {
             'font-size': '40px',
-            background: 'red',
             color: 'yellow',
-            fontWeight: 900
+            'font-weight': 900,
+            'background-image': 'linear-gradient(291deg, #00DBDE 0%, #FC00FF 50%, #2634c7 100%)',
+            padding: '10px 20px'
           }
         }
 
@@ -117,7 +118,7 @@
           if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
             debugger;
           }
-        })
+        }, 100)
 
       }
 

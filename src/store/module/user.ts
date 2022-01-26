@@ -6,11 +6,14 @@
 import Cookie from "@/utils/Cookie";
 import i18n from '@/lang/index'
 import Api from "@/service/api";
+
+import {Base64} from 'js-base64';
+import Host from '../../../config/host'
+
+
 // 当前环境 development production
 const NODE_ENV:string = import.meta.env.VITE_NODE_ENV
 
-
-import Host from '../../../config/host'
 const service = {}
 
 
@@ -24,13 +27,13 @@ if(NODE_ENV === 'development'){
   }
 }
 
-// btoa  编码 atob 解码
+// btoa == Base64.encode 编码  atob == Base64.decode 解码
 
 export default {
   id: "userGlobalState",
   // state: 返回对象的函数
   state: () => ({
-    experienceNumber: Cookie.getCookie("experienceNumber") && atob(Cookie.getCookie("experienceNumber")) || 6,
+    experienceNumber: Cookie.getCookie("experienceNumber") && Base64.decode(Cookie.getCookie("experienceNumber")) || 6,
     userType: 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
     git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
@@ -41,7 +44,7 @@ export default {
     visitorUpload() {
       if (this.experienceNumber) {
         --this.experienceNumber;
-        Cookie.setCookie("experienceNumber", btoa(this.experienceNumber),-1);
+        Cookie.setCookie("experienceNumber", Base64.encode(this.experienceNumber),-1);
         window.$notification.success({
           title: i18n.global.t('message.uploadSuccess'),
           content: i18n.global.t('message.content', { time: this.experienceNumber }),

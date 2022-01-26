@@ -6,7 +6,6 @@ import viteCompression from 'vite-plugin-compression'
 import Host from './config/host'
 const {Github, Gitee, OSS, Upyun} = Host
 
-console.log(Host)
 
 export default (({mode})=>{
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };

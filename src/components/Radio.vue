@@ -31,7 +31,7 @@
             })
             watch(locale, () => {
                 data.types.some(item => {
-                    if (item.value == 'upyun') {
+                    if (item.value == 'Upyun') {
                         item.label = t('upyun')
                         return true
                     }

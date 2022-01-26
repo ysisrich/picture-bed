@@ -44,13 +44,21 @@ axios.interceptors.request.use(
     const token: string = useUser().git.token;
     const auth: object = useUser().git.auth;
 
-    // 又拍云
-    if(Cookie.getCookie('repoType') == 'upyun'){
+
+    // oss
+    if(token && Cookie.getCookie('repoType') == 'OSS'){
       // config.headers["Authorization"] = token;
       return config
     }
 
-    if (token) {
+    // 又拍云
+    if(token && Cookie.getCookie('repoType') == 'Upyun'){
+      // config.headers["Authorization"] = token;
+      return config
+    }
+
+    // Github Gitee
+    if (token && Cookie.getCookie('repoType') === 'Github' || Cookie.getCookie('repoType') === 'Gitee') {
       //@ts-ignore
       config.headers["Authorization"] = "token " + token;
     }
