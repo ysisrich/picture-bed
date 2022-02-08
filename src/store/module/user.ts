@@ -10,6 +10,8 @@ import Api from "@/service/api";
 import {Base64} from 'js-base64';
 import Host from '../../../config/host'
 
+import axios, { AxiosRequestConfig } from "axios";
+
 
 // 当前环境 development production
 const NODE_ENV:string = import.meta.env.VITE_NODE_ENV
@@ -34,7 +36,7 @@ export default {
   // state: 返回对象的函数
   state: () => ({
     experienceNumber: Cookie.getCookie("experienceNumber") && Base64.decode(Cookie.getCookie("experienceNumber")) || 6,
-    userType: 0, // 0 游客 1 账户
+    userType: Cookie.getCookie("token") ? 1 : 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
     git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
   }),
@@ -59,10 +61,14 @@ export default {
       this.repoType = repoType
 
       if(repoType == 'Upyun'){
-        
         Api.getUpyunToken(this.git.auth).then(res=>{
           console.log('upyun',res)
         })
+      }
+
+      if(repoType == 'OSS'){
+        console.log('oss',this.git)
+        this.git.oss_client.getACL('static')
       }
     },
     // 获取仓库详情
@@ -77,37 +83,50 @@ export default {
         })
       })
     },
+    // 表单验证
+    verify(params){
+      const {loginType,token} = params
+      if(loginType == 'token' && !token){
+        window.$message.error(i18n.global.t('message.emptyToken'))
+        return false
+      }else{
+        return true
+      }
+    },
     // 登录
     login(params) {
-      console.log(params)
-      const {loginType,repoType,expirationTime,token} = params
-      if(loginType == 'token' && repoType == 'Github'){
-        this.changeRepoType(repoType)
-        this.git.token = token
-        Api.getOauthUserInfo().then(res=>{
-          console.log(res)
-          if(res.status == 200){
-            this.userType = 1
-            this.git.userInfo = res.data
-            Cookie.setCookie('token',token,expirationTime || 36500 )
-            window.$message.success(i18n.global.t('login.loginSuccess'))
+      return new Promise((resolve,reject)=>{
+        const {loginType,repoType,expirationTime,token} = params
+        if(this.verify(params)){
+          if(loginType == 'token' && repoType == 'Github'){
+            this.changeRepoType(repoType)
+            this.git.token = token
+            Api.getOauthUserInfo().then(res=>{
+              console.log(res)
+              if(res.status == 200){
+                this.git.userInfo = res.data
+                Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
+                window.$message.success(i18n.global.t('login.loginSuccess'))
+                resolve(true)
+              }
+            })
           }
-        })
-      }
 
-      if(loginType == 'token' && repoType == 'Gitee'){
-        this.changeRepoType(repoType)
-        this.git.token = token
-        Api._getOauthUserInfo().then(res=>{
-          console.log(res)
-          if(res.status == 200){
-            this.userType = 1
-            this.git.userInfo = res.data
-            Cookie.setCookie('token',token,expirationTime || 36500 )
-            window.$message.success(i18n.global.t('login.loginSuccess'))
+          if(loginType == 'token' && repoType == 'Gitee'){
+            this.changeRepoType(repoType)
+            this.git.token = token
+            Api._getOauthUserInfo().then(res=>{
+              console.log(res)
+              if(res.status == 200){
+                this.git.userInfo = res.data
+                Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
+                window.$message.success(i18n.global.t('login.loginSuccess'))
+                resolve(true)
+              }
+            })
           }
-        })
-      }
+        }
+      })
     },
   },
 };

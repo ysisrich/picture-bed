@@ -24,8 +24,8 @@
                 types: [
                     { value: "Github", label: "Github" },
                     { value: 'Gitee', label: 'Gitee' },
-                    { value: 'OSS', label: 'OSS' },
-                    { value: 'Upyun', label: t('upyun') }
+                    // { value: 'OSS', label: 'OSS' },
+                    // { value: 'Upyun', label: t('upyun') }
 
                 ],
             })

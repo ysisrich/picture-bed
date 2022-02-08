@@ -8,7 +8,9 @@ export default {
         login:'Login',
         language:'Language',
         theme:'Theme',
-        about:'About'
+        about:'About',
+        userInfo:'userInfo',
+        exit:'Exit'
     },
     // 公告
     notice:{
@@ -41,6 +43,7 @@ export default {
         uploadSuccess:'Upload successful!',
         forbidRightKey:'No right click',
         forbidF12:'No F12',
+        emptyToken:'Empty Token'
     },
 
     copy:'copy',
@@ -64,5 +67,20 @@ export default {
         "400": "The SHA field is empty",
 
         "1011":"Request timed out, please check the network and reconnect！"
-    }
+    },
+
+
+    // 有效时间
+    expirationTime:{
+        expirationTime1: "Never expire",
+        expirationTime2: 'Valid for 3 hours',
+        expirationTime3: "Valid for 6 hours",
+        expirationTime4: 'Valid for 1 day',
+        expirationTime5: 'Valid for 30 days',
+        expirationTime6: 'Valid for 1 year',
+    },
+
+
+
+
 }

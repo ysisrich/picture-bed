@@ -4,11 +4,13 @@
 
 export default {
     menu:{
-        upload:'多图上传',
+        upload:'上传',
         login:'登录',
         language:'语言',
         theme:'主题',
-        about:'关于'
+        about:'关于',
+        userInfo:'个人资料',
+        exit:'安全退出'
     },
 
     // 公告
@@ -42,6 +44,7 @@ export default {
         uploadSuccess:'上传成功！',
         forbidRightKey:'禁止右键',
         forbidF12:'禁止F12',
+        emptyToken:'token为空'
     },
     copy:'复制',
     // 登录
@@ -64,5 +67,16 @@ export default {
         "400": "sha字段为空",
 
         "1011":"请求超时，请检查网络再重新连接！"
+    },
+
+    
+    // 有效时间
+    expirationTime:{
+        expirationTime1: "永不过期",
+        expirationTime2: '3小时有效期',
+        expirationTime3: "6小时有效期",
+        expirationTime4: '1天有效期',
+        expirationTime5: '30天有效期',
+        expirationTime6: '1年有效期',
     }
 }

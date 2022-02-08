@@ -7,6 +7,11 @@ import axios, { AxiosRequestConfig } from "axios";
 import { useUser } from "@/store/index";
 import i18n from '@/lang/index'
 import Cookie from "@/utils/Cookie";
+import {Base64} from 'js-base64';
+import CryptoJS  from 'crypto-js'
+
+import hmacsha1 from 'hmacsha1'
+
 import Host from '../../config/host';
 const { Gitee, Github, Upyun, OSS } = Host
 Cookie.getCookie('repoType') || Cookie.setCookie('repoType','Github')
@@ -34,8 +39,7 @@ const setBaseUrl =  () => {
 axios.defaults.timeout = 10000; // 设置超时时长
 //@ts-ignore
 axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
-//@ts-ignore
-axios.defaults.headers["Accept"] = "application/vnd.github.v3+json";
+
 
 // 请求拦截
 axios.interceptors.request.use(
@@ -47,7 +51,40 @@ axios.interceptors.request.use(
 
     // oss
     if(token && Cookie.getCookie('repoType') == 'OSS'){
-      // config.headers["Authorization"] = token;
+      console.log(config)
+      const VERB = config.method?.toUpperCase()
+      const Content_MD5 = ''
+      const Content_Type = 'application/x-www-form-urlencoded'
+      const date = (new Date()).toGMTString()
+
+      // console.log('hmacsha1',hmacsha1)
+      // MjViNTc1Yjc2Y2NlNmU1OWE2YzlmZDg1M2NiM2E2MzJmZDhkNTM2YQ==
+      // Rlh0dC8vNGpGajczWko0Yk1HU3BQQSttVlBVPQ==
+
+
+      const CanonicalizedResource = '/static/'
+      const Signature = Base64.encode(CryptoJS.HmacSHA1(auth.AccessKeySecret,
+        VERB + "\n"
+        + Content_Type +"\n"
+        + CanonicalizedResource).toString(CryptoJS.enc.Base64))
+
+      console.log(CryptoJS.HmacSHA1(auth.AccessKeySecret,
+        VERB + "\n"
+        + Content_Type +"\n"
+        + CanonicalizedResource).toString(CryptoJS.enc.Base64))
+
+        console.log(hmacsha1(auth.AccessKeySecret,
+          VERB + "\n"
+          + Content_Type +"\n"
+          + CanonicalizedResource))
+
+          // OSS LTAI5tCd6hHbnTNmeVra58cC:2o+pZskI851no2FTbI3YFVsU7Y8=
+          // OSS LTAI5tCd6hHbnTNmeVra58cC:2o+pZskI851no2FTbI3YFVsU7Y8=
+
+      console.log('Signature',Signature)
+      config.headers["x-oss-date"] = date
+      config.headers["Content-Type"] = "application/octet-stream"
+      config.headers["Authorization"] = "OSS LTAI5tCd6hHbnTNmeVra58cC:2o+pZskI851no2FTbI3YFVsU7Y8=";
       return config
     }
 
@@ -57,8 +94,16 @@ axios.interceptors.request.use(
       return config
     }
 
-    // Github Gitee
-    if (token && Cookie.getCookie('repoType') === 'Github' || Cookie.getCookie('repoType') === 'Gitee') {
+    // Github 
+    if (token && Cookie.getCookie('repoType') === 'Github') {
+      //@ts-ignore
+      config.headers["Accept"] = "application/vnd.github.v3+json";
+      //@ts-ignore
+      config.headers["Authorization"] = "token " + token;
+    }
+
+    // Gitee
+    if(token &&  Cookie.getCookie('repoType') === 'Gitee'){
       //@ts-ignore
       config.headers["Authorization"] = "token " + token;
     }

@@ -86,6 +86,19 @@ export default (({mode})=>{
             // proxy 是 'http-proxy' 的实例
           },
         },
+
+        [OSS.dev.API_BaseUrl]: {
+          target: OSS.build.API_BaseUrl, //目标接口域名
+          secure: true, //false为http访问，true为https访问
+          changeOrigin: true, //是否跨域
+          rewrite:  path => {
+            let reg = new RegExp(`^\\${[OSS.dev.API_BaseUrl]}`, 'g')
+            return path.replace(reg, '')
+          },
+          configure: (proxy, options) => {
+            // proxy 是 'http-proxy' 的实例
+          },
+        },
   
       }
     },

@@ -4,7 +4,7 @@
 * 生产环境配置 - build
 */
 
-const API_BaseUrl:string = 'http://oss-cn-shenzhen.aliyuncs.com';
+const API_BaseUrl:string = 'https://yangs1.oss-cn-shenzhen.aliyuncs.com';
 
 // token 令牌 
 const token:string = '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';

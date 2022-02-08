@@ -149,4 +149,21 @@
     margin: auto;
     height: 100vh;
   }
+
+
+
+  *::selection {
+    background: transparent;
+    color: red;
+  }
+
+  *::-moz-selection {
+    background: transparent;
+    color: #ff645d;
+  }
+
+  *::-webkit-selection {
+    background: transparent;
+    color: #ff645d;
+  }
 </style>

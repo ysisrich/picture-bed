@@ -23,7 +23,7 @@
           <n-button type="primary" block @click="handleLogin('token')">{{$t('login.sign_in')}}</n-button>
         </n-form>
       </n-tab-pane>
-      <n-tab-pane name="signin2" tab="GitHub Apps">
+      <!-- <n-tab-pane name="signin2" tab="GitHub Apps">
         <n-form class="marginTop-50">
           <n-form-item-row :label="$t('repositories')">
             <n-space>
@@ -70,47 +70,61 @@
           </n-form-item-row>
         </n-form>
         <n-button type="primary" block @click="handleLogin()">{{$t('login.sign_in')}}</n-button>
-      </n-tab-pane>
+      </n-tab-pane> -->
     </n-tabs>
   </n-card>
 </template>
 
 <script>
-  import { defineComponent, ref, reactive, toRefs } from "vue";
+  import { defineComponent, ref, reactive, toRefs, watch, computed } from "vue";
   import { useUser } from '@/store/index'
+  import { useI18n } from 'vue-i18n'
+  import { useRouter } from 'vue-router'
 
   export default defineComponent({
+
+
     setup() {
+
+      const { t, locale } = useI18n()
+      const router = useRouter()
+
       let data = reactive({
         checkedValue: 'Github',
         token: '',
         expirationTime: 0,
-        options: [
+        options: []
+      })
+
+      const local = computed(() => locale.value)
+      watch(locale, () => {
+        data.options = [
           {
-            label: "永不过期",
+            label: t('expirationTime.expirationTime1'),
             value: 0,
           },
           {
-            label: '3小时有效期',
+            label: t('expirationTime.expirationTime2'),
             value: 0.125
           },
           {
-            label: "6小时有效期",
+            label: t('expirationTime.expirationTime3'),
             value: 0.25
           },
           {
-            label: '1天有效期',
+            label: t('expirationTime.expirationTime4'),
             value: 1
           },
           {
-            label: '30天有效期',
+            label: t('expirationTime.expirationTime5'),
             value: 30
           },
           {
-            label: '1年有效期',
+            label: t('expirationTime.expirationTime6'),
             value: 365
-          }]
-      })
+          }
+        ]
+      }, { immediate: true })
 
       const handleChange = (e) => {
         data.checkedValue = e.target.value
@@ -123,7 +137,11 @@
           expirationTime: data.expirationTime,
           token: data.token
         }
-        useUser().login(params)
+        useUser().login(params).then(res => {
+          if (res) {
+            router.push('/')
+          }
+        })
       }
 
       return {
