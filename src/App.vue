@@ -67,7 +67,7 @@
 
 
       onMounted(() => {
-        if (userType || !userType.value) {
+        if (userType && userType.value == 0) {
           setTimeout(() => {
             window.$notification.success({
               title: t('message.title1'),
@@ -75,6 +75,8 @@
               duration: 10000
             })
           })
+        } else {
+          useUser().getLocalstorageToken()
         }
       })
 

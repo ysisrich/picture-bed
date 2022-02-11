@@ -25,18 +25,19 @@
       const { t, locale } = useI18n()
       const router = useRouter()
 
-      let data = reactive({
+      const data = reactive({
         activeKey: '',
         menuOptions: [],
         showModal: false
       })
-
       const renderIcon = (icon) => () => h(NIcon, null, { default: () => h(icon) })
       const MESSAGE = {}
-
-
       const local = computed(() => locale.value)
-      watch(local, () => {
+      const userType = computed(() => useUser().userType)
+
+
+      watch([local, userType], () => {
+
         MESSAGE.underDevelopment = t('message.underDevelopment')
         data.menuOptions = [
           {
@@ -80,9 +81,33 @@
         ]
 
         // token 存在即登录
+        if (userType.value === 1) {
+          const timer = setInterval(() => {
+            if (useUser().git.userInfo.avatar_url) {
+              const login_finish = {
+                label: useUser().git.userInfo.name || useUser().git.userInfo.login,
+                key: 'login',
+                icon: renderIcon(PersonOutlineIcon),
+                children: [
+                  { label: t('menu.userInfo'), key: 'userInfo', },
+                  { label: t('menu.exit'), key: 'exit', }
+                ]
+              }
+              const index = data.menuOptions.findIndex(item => item.key == 'login')
+              data.menuOptions.splice(index, 1, login_finish)
+              clearInterval(timer)
+            }
+          }, 200)
+        }
+
+
+      }, { immediate: true })
+
+      // 登录就显示账号
+      const showAccountName = () => {
         if (useUser().userType == 1) {
           const login_finish = {
-            label: 'ysisrich',
+            label: useUser().git.userInfo.name,
             key: 'login',
             icon: renderIcon(PersonOutlineIcon),
             children: [
@@ -93,29 +118,34 @@
           const index = data.menuOptions.findIndex(item => item.key == 'login')
           data.menuOptions.splice(index, 1, login_finish)
         }
-
-
-      }, { immediate: true })
+      }
 
 
       const handleUpdateExpandedKeys = value => {
         console.log(value)
         // 登录
-        if (value == 'login') {
-          // window.$message.info(MESSAGE.underDevelopment)
-          router.push({ name: 'Login' })
+        if (value === 'login') {
+          router.push('/login')
+        }
+        // 退出
+        if (value === 'exit') {
+          useUser().exit()
+        }
+        // 个人资料
+        if (value === 'userInfo') {
+          router.push('/user')
         }
         // 上传
-        else if (value == 'upload') {
+        else if (value === 'upload') {
           router.push('/')
         }
         // 切换语言
-        else if (value == 'en' || value == 'zh') {
+        else if (value === 'en' || value === 'zh') {
           locale.value = value
           useSetting().changeConfig({ key: 'language', value })
         }
         // 切换主题
-        else if (value == 'dark' || value == 'light') {
+        else if (value === 'dark' || value === 'light') {
           useSetting().changeConfig({ key: 'theme', value })
         }
         // 关于

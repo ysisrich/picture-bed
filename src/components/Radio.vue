@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import { ref, reactive, toRefs, watch } from 'vue'
+    import { ref, reactive, toRefs, watch, computed } from 'vue'
     import { useUser } from '@/store/index'
     import Cookie from '@/utils/Cookie'
     import { useI18n } from 'vue-i18n'
@@ -21,21 +21,23 @@
             const { t, locale } = useI18n()
             let data = reactive({
                 value: Cookie.getCookie('repoType'),
-                types: [
+                types: [],
+            })
+            const userType = computed(() => useUser().userType)
+            const repoType = computed(() => useUser().repoType)
+
+            watch([locale, userType], () => {
+                data.types = [
                     { value: "Github", label: "Github" },
                     { value: 'Gitee', label: 'Gitee' },
                     // { value: 'OSS', label: 'OSS' },
                     // { value: 'Upyun', label: t('upyun') }
 
-                ],
-            })
-            watch(locale, () => {
-                data.types.some(item => {
-                    if (item.value == 'Upyun') {
-                        item.label = t('upyun')
-                        return true
-                    }
-                })
+                ]
+
+                if (userType.value === 1) {
+                    data.types = data.types.filter(item => item.value == repoType.value)
+                }
             }, { immediate: true })
 
             const changeRepoType = (repoType) => {

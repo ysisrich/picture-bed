@@ -40,7 +40,11 @@ export default {
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
     git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
   }),
-  getters: {},
+  getters: {
+    userInfo(){
+      return this.git.userInfo || null
+    }
+  },
   actions: {
     // 游客上传调用
     visitorUpload() {
@@ -83,6 +87,35 @@ export default {
         })
       })
     },
+    // 获取个人详情
+    getUserInfo() {
+      if(this.repoType === 'Github'){
+        Api.getOauthUserInfo().then(res=>{
+          if(res.status == 200){
+            this.git.userInfo = res.data
+          }
+        })
+      }
+
+      if(this.repoType === 'Gitee'){
+        Api.getOauthUserInfo().then(res=>{
+          if(res.status == 200){
+            this.git.userInfo = res.data
+          }
+        })
+      }
+
+    },
+
+    // 判断是否登录
+    getLocalstorageToken(){
+      let token = Cookie.getCookie('token')
+      if(token){
+        this.git.token = Base64.decode(token.slice(0,token.length-1))
+        this.getUserInfo()
+      }
+    },
+
     // 表单验证
     verify(params){
       const {loginType,token} = params
@@ -105,6 +138,7 @@ export default {
               console.log(res)
               if(res.status == 200){
                 this.git.userInfo = res.data
+                this.userType = 1
                 Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
                 window.$message.success(i18n.global.t('login.loginSuccess'))
                 resolve(true)
@@ -119,6 +153,7 @@ export default {
               console.log(res)
               if(res.status == 200){
                 this.git.userInfo = res.data
+                this.userType = 1
                 Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
                 window.$message.success(i18n.global.t('login.loginSuccess'))
                 resolve(true)
@@ -128,5 +163,12 @@ export default {
         }
       })
     },
+
+    // 退出
+    exit(){
+      Cookie.clearCookie('token')
+      this.userType = 0
+      this.git.userInfo = {}
+    }
   },
 };
