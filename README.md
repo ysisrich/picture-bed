@@ -1,10 +1,10 @@
-## 搭建 Github 或 npm 图床网站
+## 搭建 Github 或 Gitee 图床网站
 
-## 一、使用 Github
+## 一、使用 Github Gitee
 
 ### 前言
 
-1. 存储图片服务器平台 Github 或 NPM
+1. 存储图片服务器平台 Github 或 Gitee
 2. 加速 cdn `jsDeliver`工具
 3. 网站站点 `gitee` `github` 个人服务器
 
@@ -23,20 +23,40 @@
 
 ### 网站界面需求
 
-- [ ] 明暗主题切换、语言切换（中英切换）
-- [ ] 适配响应式设计（考虑 pc 和移动端之间）
-- [ ] 配置按钮（access_token，用户名，仓库名）
-- [ ] 图片上传框
-- [ ] 链接访问框
+- [x] 明暗主题切换、语言切换（中英切换）
+- [x] 使用token登录仓库
+- [x] 图片上传框
+- [x] 链接访问框
+- [x] 体验用户可上传
 
 <br/>
 
 ### 功能 API 需求
 
-- [ ] 获取 github 个人信息
-- [ ] 获取全部仓库列表
-- [ ] 获取具体仓库信息
+- [x] 获取 github 个人信息
+- [x] 获取全部仓库列表
+- [x] 获取具体仓库信息
+- [x] 向具体仓库上传文件
 - [ ] 获取具体仓库下文件列表
-- [ ] 向具体仓库上传文件
 - [ ] 更新仓库具体文件
 - [ ] 删除仓库具体文件
+
+### 线上预览地址：http://ibed.yangsong.cool
+
+### 效果：
+
+<div style="dispaly:flex;justify-content: center;" >
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_1.png" />
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_2.png" />
+</div>
+
+<div style="dispaly:flex;justify-content: center;" >
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_3.png" />
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_4.png" />
+</div>
+
+<div style="dispaly:flex;justify-content: center;" >
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_5.png" />
+</div>
+
+
