@@ -45,7 +45,8 @@ export default {
         uploadSuccess:'上传成功！',
         forbidRightKey:'禁止右键',
         forbidF12:'禁止F12',
-        emptyToken:'token为空'
+        emptyToken:'token为空',
+        uploadPathError:'上传路径为空'
     },
     copy:'复制',
     // 登录

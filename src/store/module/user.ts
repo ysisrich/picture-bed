@@ -47,7 +47,6 @@ export default {
     // 上传
     upload(option){
       return new Promise((resolve,reject)=>{
-
         let query = {
           owner: this.git.repoInfo.owner,
           repo: this.git.repoInfo.repo,

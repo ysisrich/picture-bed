@@ -44,7 +44,8 @@ export default {
         uploadSuccess:'Upload successful!',
         forbidRightKey:'No right click',
         forbidF12:'No F12',
-        emptyToken:'Empty Token'
+        emptyToken:'Empty Token',
+        uploadPathError:'Empty Upload Path'
     },
 
     copy:'copy',

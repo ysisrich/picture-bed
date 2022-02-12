@@ -46,20 +46,26 @@
 				MESSAGE.uploadLimit5 = t('message.uploadLimit5')
 				MESSAGE.uploadSuccess = t('message.uploadSuccess')
 				MESSAGE.underDevelopment = t('message.underDevelopment')
+				MESSAGE.uploadPathError = t('message.uploadPathError')
 			}, { immediate: true })
 
 
 			// 上传前 
 			const beforeUpload = async ({ file, fileList }) => {
 				const { name, size, type } = file.file
-				// console.log(name,size,type)
-				// console.log('文件列表', fileList)
+
 				useContent().setContent({ content: '' })
 
 				// if(useUser().repoType == 'OSS' || useUser().repoType == 'upyun'){
 				// 	window.$message.info(MESSAGE.underDevelopment)
 				// 	return false
 				// }
+
+				if (useUser().git.repoInfo.owner == 'YsisNo1' && useUser().userType === 1) {
+					window.$message.error(MESSAGE.uploadPathError)
+					return false
+				}
+
 
 				// 限制图床仓库大小
 				let res = await useUser().getUserRepositoryInfo()
