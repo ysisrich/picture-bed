@@ -10,7 +10,6 @@ import Api from "@/service/api";
 import {Base64} from 'js-base64';
 import Host from '../../../config/host'
 
-import axios, { AxiosRequestConfig } from "axios";
 
 
 // 当前环境 development production
@@ -32,21 +31,52 @@ if(NODE_ENV === 'development'){
 // btoa == Base64.encode 编码  atob == Base64.decode 解码
 
 export default {
-  id: "userGlobalState",
+  id: "user",
   // state: 返回对象的函数
   state: () => ({
     experienceNumber: Cookie.getCookie("experienceNumber") && Base64.decode(Cookie.getCookie("experienceNumber")) || 6,
     userType: Cookie.getCookie("token") ? 1 : 0, // 0 游客 1 账户
     repoType: Cookie.getCookie("repoType") || 'Github', // 仓库类型  默认Github  Gitee
     git:Cookie.getCookie("repoType") && service[Cookie.getCookie("repoType")],
+    repoList:[]
   }),
   getters: {
-    userInfo(){
-      return this.git.userInfo || null
-    }
+    
   },
   actions: {
-    // 游客上传调用
+    // 上传
+    upload(option){
+      return new Promise((resolve,reject)=>{
+
+        let query = {
+          owner: this.git.repoInfo.owner,
+          repo: this.git.repoInfo.repo,
+          path: option.path
+        }
+        let params = {
+          message: 'Git图床提交',
+          content: option.content
+        }
+
+        if(this.repoType === 'Github'){
+          Api.createNewFileOrUpdateFile(params, query).then(res=>{
+            if(res.status == 201){
+              resolve(res)
+            }
+          })
+        }
+  
+        if(this.repoType === 'Gitee'){
+          Api._createNewFileOrUpdateFile(params, query).then(res=>{
+            if(res.status == 201){
+              resolve(res)
+            }
+          })
+        }
+      })
+    },
+
+    // 游客上传体验次数减少
     visitorUpload() {
       if (this.experienceNumber) {
         --this.experienceNumber;
@@ -74,6 +104,38 @@ export default {
         console.log('oss',this.git)
         this.git.oss_client.getACL('static')
       }
+    },
+    // 获取所有仓库信息
+    getUserAllRepoInfo(){
+      if(this.repoType === 'Github'){
+        Api.getOauthAllRepo().then(res=>{
+          if(res.status == 200){
+            console.log('所有仓库',res.data)
+            this.repoList = res.data
+          }
+        })
+      }
+
+      if(this.repoType === 'Gitee'){
+        Api._getOauthAllRepo().then(res=>{
+          if(res.status == 200){
+            console.log('所有仓库',res.data)
+            this.repoList = res.data
+          }
+        })
+      }
+    },
+
+    // 确定上传仓库的路径
+    handleRepoPath(option){
+      const repoInfo :object = {
+          owner: option.split('/')[0],
+          repo: option.split('/')[1],
+          path: option.split('/')[2],
+      }
+      console.log('repoInfo',repoInfo)
+
+      this.git.repoInfo = repoInfo
     },
     // 获取仓库详情
     async getUserRepositoryInfo() {
@@ -113,6 +175,7 @@ export default {
       if(token){
         this.git.token = Base64.decode(token.slice(0,token.length-1))
         this.getUserInfo()
+        this.getUserAllRepoInfo()
       }
     },
 
@@ -139,6 +202,7 @@ export default {
               if(res.status == 200){
                 this.git.userInfo = res.data
                 this.userType = 1
+                this.getUserAllRepoInfo()
                 Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
                 window.$message.success(i18n.global.t('login.loginSuccess'))
                 resolve(true)
@@ -154,6 +218,7 @@ export default {
               if(res.status == 200){
                 this.git.userInfo = res.data
                 this.userType = 1
+                this.getUserAllRepoInfo()
                 Cookie.setCookie('token',Base64.encode(token) +'=',expirationTime || 36500 )
                 window.$message.success(i18n.global.t('login.loginSuccess'))
                 resolve(true)

@@ -4,23 +4,23 @@
 * 生产环境配置 - build
 */
 
-const API_BaseUrl:string = 'https://yangs1.oss-cn-shenzhen.aliyuncs.com';
+const API_BaseUrl:string = '';
 
 // token 令牌 
-const token:string = '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';
+const token:string = '';
 
 // 账户 用户名密码 阿里云 AccessKey ID 与 AccessKey Secret 验证
 const auth:object = {
-    username: "LTAI5t6cMZGgAvV2ogwcNwEA",
-    password: "DIbLb3SI1t6KtLAYCIoGwivBfeAJsz",
+    username: "",
+    password: "",
 }
  // 登录用户信息
 const userInfo:object = {}
 
 // 仓库信息 或 云存储信息
 const repoInfo:object = {
-    bucketName: "YsisNo1",
-    repo: "static",
+    bucketName: "",
+    repo: "",
     path: "",
 }
 

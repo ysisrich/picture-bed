@@ -6,13 +6,13 @@
 
 const API_BaseUrl:string = '/api_github';
 
-// token 令牌 
+// 登录方式1 token 令牌 上传需要header携带认证
 const token:string = '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';
 
-// 账户 用户名密码
+// 登录方式2 用户名密码
 const auth:object = {
-    username: "YsisNo1",
-    password: "***************",
+    username: "",
+    password: "",
 }
  // 登录用户信息
 const userInfo:object = {}

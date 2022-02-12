@@ -6,18 +6,18 @@
 
 const API_BaseUrl:string = '/api_gitee';
 
-// token 令牌 
-const token:string = '9a442e5a2baf17575d1948a7f0bb82d6'; // f73855df5573e23982abc132abae79d2
+// 登录方式1 token 令牌 上传需要header携带认证
+const token:string = '9a442e5a2baf17575d1948a7f0bb82d6';
 
-// 账户 用户名密码
+// 登录方式2 用户名密码
 const auth:object = {
-    username: "YsisNo1",
-    password: "***************",
+    username: "",
+    password: ""
 }
- // 登录用户信息
+ // 用户gitee信息
 const userInfo:object = {}
 
-// 仓库信息 或 云存储信息
+// 仓库信息 上传的具体仓库和文件路径
 const repoInfo:object = {
     owner: "YsisNo1",
     repo: "static",

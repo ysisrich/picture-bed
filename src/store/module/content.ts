@@ -5,7 +5,7 @@
  */
 
 export default {
-  id: "contentGlobalState",
+  id: "content",
   state: () => ({
     content: "",
   }),

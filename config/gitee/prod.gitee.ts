@@ -7,13 +7,13 @@
 
 const API_BaseUrl:string = 'https://gitee.com/api/v5';
 
-// token 令牌 
+// 登录方式1 token 令牌 上传需要header携带认证
 const token:string = '9a442e5a2baf17575d1948a7f0bb82d6';
 
-// 账户 用户名密码
+// 登录方式2 用户名密码
 const auth:object = {
-    username: "YsisNo1",
-    password: "***************",
+    username: "",
+    password: "",
 }
  // 登录用户信息
 const userInfo:object = {}

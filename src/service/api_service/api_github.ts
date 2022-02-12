@@ -53,7 +53,7 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
  * @params {}
  * @description: 列出经过身份验证的用户的存储库 (包括私有和公有仓库)
  */
- const getAuthUserAllRepository = (params: undefined | object, query: any) => request.get(`/user/repos`, params)
+ const getOauthAllRepo = (params: undefined | object, query: any) => request.get(`/user/repos`, params)
 
  /**
  * @author: yangs
@@ -61,7 +61,7 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
  * @params {}
  * @description: 为经过身份验证的用户创建存储库
  */
-  const createRepo = (params: undefined | object, query: any) => request.post(`/user/repos`, params)
+  const createOauthRepo = (params: undefined | object, query: any) => request.post(`/user/repos`, params)
 
  /** 
  * @author: yangs
@@ -111,7 +111,8 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
     getUserGithubInfo,
     getUserRepositoryInfo,
     getUserAllRepositoryInfo,
-    getAuthUserAllRepository,
+    getOauthAllRepo,
     createNewFileOrUpdateFile,
-    getOauthUserInfo
+    getOauthUserInfo,
+    createOauthRepo
  }

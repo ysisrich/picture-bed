@@ -5,7 +5,7 @@
 import Cookie from '@/utils/Cookie'
 
 export default {
-  id: 'websiteSettingGlobalState',
+  id: 'websiteSetting',
   // state: 返回对象的函数
   state: () => ({
       theme:Cookie.getCookie('theme') || 'dark',

@@ -62,9 +62,9 @@ export default (({mode})=>{
         },
   
         [Gitee.dev.API_BaseUrl]: {
-          target: Gitee.build.API_BaseUrl, //目标接口域名
-          secure: true, //false为http访问，true为https访问
-          changeOrigin: true, //是否跨域
+          target: Gitee.build.API_BaseUrl, 
+          secure: true, 
+          changeOrigin: true, 
           rewrite:  path => {
             let reg = new RegExp(`^\\${[Gitee.dev.API_BaseUrl]}`, 'g')
             return path.replace(reg, '')
@@ -75,9 +75,9 @@ export default (({mode})=>{
         },
   
         [Upyun.dev.API_BaseUrl]: {
-          target: Upyun.build.API_BaseUrl, //目标接口域名
-          secure: true, //false为http访问，true为https访问
-          changeOrigin: true, //是否跨域
+          target: Upyun.build.API_BaseUrl, 
+          secure: true,
+          changeOrigin: true, 
           rewrite:  path => {
             let reg = new RegExp(`^\\${[Upyun.dev.API_BaseUrl]}`, 'g')
             return path.replace(reg, '')
@@ -88,9 +88,9 @@ export default (({mode})=>{
         },
 
         [OSS.dev.API_BaseUrl]: {
-          target: OSS.build.API_BaseUrl, //目标接口域名
-          secure: true, //false为http访问，true为https访问
-          changeOrigin: true, //是否跨域
+          target: OSS.build.API_BaseUrl, 
+          secure: true, 
+          changeOrigin: true, 
           rewrite:  path => {
             let reg = new RegExp(`^\\${[OSS.dev.API_BaseUrl]}`, 'g')
             return path.replace(reg, '')

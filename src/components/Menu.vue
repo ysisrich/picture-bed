@@ -85,7 +85,7 @@
           const timer = setInterval(() => {
             if (useUser().git.userInfo.avatar_url) {
               const login_finish = {
-                label: useUser().git.userInfo.name || useUser().git.userInfo.login,
+                label: useUser().git.userInfo.login,
                 key: 'login',
                 icon: renderIcon(PersonOutlineIcon),
                 children: [
@@ -130,6 +130,7 @@
         // 退出
         if (value === 'exit') {
           useUser().exit()
+          router.push('/')
         }
         // 个人资料
         if (value === 'userInfo') {

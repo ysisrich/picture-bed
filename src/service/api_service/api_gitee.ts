@@ -46,8 +46,55 @@ import request from "../axios";
   * @description: 获取授权用户的资料
   */
  const _getOauthUserInfo = (params: undefined | object, query: any) => request.get(`/user`, params)
+
+ /**
+  * @author: yangs
+  * @query: /email
+  * @params {}
+  * @description: 获取授权用户的全部邮箱
+  */
+  const _getOauthUserEmail = (params: undefined | object, query: any) => request.get(`/email`, params)
+
+  /**
+  * @author: yangs
+  * @query: /repos/{owner}/{repo}/contents(/{path})
+  * @params {}
+  * @description: 获取仓库具体路径下的内容
+  */
+   const _getOauthRepoDetailPathContent = (params: undefined | object, query: any) => request.get(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
+
+  /**
+  * @author: yangs
+  * @query: /user/repos
+  * @params {}
+  * @description: 创建一个仓库
+  */
+  const _createOauthRepo = (params: undefined | object, query: any) => request.get(`/user/repos`, params)
+
+  /**
+  * @author: yangs
+  * @query: /user/repos
+  * @params {}
+  * @description: 列出授权用户的所有仓库
+  */
+  const _getOauthAllRepo = (params: undefined | object, query: any) => request.get(`/user/repos`, params)
+
+  /**
+  * @author: yangs
+  * @query: /repos/{owner}/{repo}/clear
+  * @params {}
+  * @description: 清空一个仓库
+  */
+    const _putOauthClearRepo = (params: undefined | object, query: any) => request.put(`/repos/${query.owner}/${query.repo}/clear`, params)
+
+ 
  
  export default {
     _createNewFileOrUpdateFile,
-    _getOauthUserInfo
+    _getOauthUserInfo,
+    _getOauthUserEmail,
+    _getOauthRepoDetailPathContent,
+    _getOauthAllRepo,
+    _putOauthClearRepo,
+    _createOauthRepo
   }

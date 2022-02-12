@@ -49,9 +49,6 @@
 			}, { immediate: true })
 
 
-
-
-
 			// 上传前 
 			const beforeUpload = async ({ file, fileList }) => {
 				const { name, size, type } = file.file
@@ -123,49 +120,31 @@
 				let reader = new FileReader();
 				reader.readAsDataURL(file.file)
 				reader.addEventListener("load", function () {
-					let query = {
-						owner: useUser().git.repoInfo.owner,
-						repo: useUser().git.repoInfo.repo,
-						path: `${GenNonDuplicateID(6)}.${name.split('.')[1]}`
-					}
-					// debugger
-					let params = {
-						message: 'Git图床提交',
+
+					useUser().upload({
+						path: `${GenNonDuplicateID(6)}.${name.split('.')[1]}`,
 						content: reader.result.split(',')[1]
-					}
-
-					if (useUser().repoType == 'Github') {
-						Api.createNewFileOrUpdateFile(params, query).then(res => {
-							console.log(res)
-							if (res.status == 201) {
-								onFinish(res)
-								window.$message.success(MESSAGE.uploadSuccess)
-								const href = `https://cdn.jsdelivr.net/gh/${query.owner}/${query.repo}/${res.data.content.path}`
-								console.log(href)
-								useContent().setContent({ content: href })
-								useUser().userType == 0 && useUser().visitorUpload()
-							} else {
-								onError(res)
-							}
-						})
-					} else {
-						Api._createNewFileOrUpdateFile(params, query).then(res => {
-							if (res.status == 201) {
-								onFinish(res)
-								window.$message.success(MESSAGE.uploadSuccess)
-								const href = `https://gitee.com/ysisno1/${query.repo}/raw/master/${res.data.content.path}`
-								console.log(href)
-								useContent().setContent({ content: href })
-								useUser().userType == 0 && useUser().visitorUpload()
-							} else {
-								onError(res)
-							}
-						})
-					}
-
+					}).then(res => {
+						const repoInfo = useUser().git.repoInfo
+						if (res.status == 201 && useUser().repoType == 'Github') {
+							window.$message.success(MESSAGE.uploadSuccess)
+							const href = `https://cdn.jsdelivr.net/gh/${repoInfo.owner}/${repoInfo.repo}/${res.data.content.path}`
+							console.log(href)
+							useContent().setContent({ content: href })
+							useUser().userType == 0 && useUser().visitorUpload()
+							onFinish(res)
+						} else if (res.status == 201 && useUser().repoType == 'Gitee') {
+							window.$message.success(MESSAGE.uploadSuccess)
+							const href = `https://gitee.com/ysisno1/${repoInfo.repo}/raw/master/${res.data.content.path}`
+							console.log(href)
+							useContent().setContent({ content: href })
+							useUser().userType == 0 && useUser().visitorUpload()
+							onFinish(res)
+						} else {
+							onError(res)
+						}
+					})
 				}, false);
-
-
 			}
 
 

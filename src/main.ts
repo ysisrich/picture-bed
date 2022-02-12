@@ -43,7 +43,9 @@ import {
   NFormItemRow,
   NForm,
   NRadio,
-  NSelect
+  NSelect,
+  NStatistic,
+  NCascader
 } from "naive-ui";
 
 const components = [
@@ -77,7 +79,9 @@ const components = [
   NTabPane,
   NFormItemRow,
   NForm,
-  NSelect
+  NSelect,
+  NStatistic,
+  NCascader
 ];
 
 const naive = create({ components });
