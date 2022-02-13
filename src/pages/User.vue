@@ -40,30 +40,18 @@
     </div>
 </template>
 
-<script>
+<script setup>
     import { useUser } from '@/store/index'
-    import { reactive, toRefs, watch, computed } from 'vue'
+    import { reactive, toRefs, watch, computed, ref } from 'vue'
 
-    export default {
-        name: "User",
-
-        setup() {
-            const data = reactive({
-                userInfo: {}
-            })
-            const timer = setInterval(() => {
-                if (useUser().git.userInfo.avatar_url) {
-                    data.userInfo = useUser().git.userInfo
-                    clearInterval(timer)
-                }
-            }, 200)
-
-            return {
-                ...toRefs(data)
-            }
+    let userInfo = ref({})
+    let timer = setInterval(() => {
+        if (useUser().git.userInfo.avatar_url) {
+            userInfo.value = useUser().git.userInfo
+            clearInterval(timer)
         }
+    }, 200)
 
-    };
 </script>
 
 <style lang="scss" scoped>

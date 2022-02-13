@@ -7,18 +7,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
   // 自定义组件
   import LoginForm from "@/components/login/Index.vue";
   import Alert from '@/components/Alert.vue'
-
-  export default {
-    name: "Index",
-    components: {
-      LoginForm,
-      Alert
-    },
-  };
 </script>
 
 <style lang="scss" scoped>

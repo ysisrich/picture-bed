@@ -9,21 +9,11 @@
     </div>
 </template>
 
-<script>
+<script setup>
     import Upload from '@/components/Upload.vue'
     import Radio from '@/components/Radio.vue'
     import Alert from '@/components/Alert.vue'
     import Result from '@/components/Result.vue'
-
-    export default {
-        name: 'Index',
-        components: {
-            Alert,
-            Radio,
-            Upload,
-            Result
-        },
-    };
 </script>
 
 <style lang="scss" scoped>
