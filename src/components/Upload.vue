@@ -54,7 +54,7 @@
 			const beforeUpload = async ({ file, fileList }) => {
 				const { name, size, type } = file.file
 
-				useContent().setContent({ content: '' })
+				useContent().clear()
 
 				// if(useUser().repoType == 'OSS' || useUser().repoType == 'upyun'){
 				// 	window.$message.info(MESSAGE.underDevelopment)
@@ -136,14 +136,14 @@
 							window.$message.success(MESSAGE.uploadSuccess)
 							const href = `https://cdn.jsdelivr.net/gh/${repoInfo.owner}/${repoInfo.repo}/${res.data.content.path}`
 							console.log(href)
-							useContent().setContent({ content: href })
+							useContent().set({ content: href })
 							useUser().userType == 0 && useUser().visitorUpload()
 							onFinish(res)
 						} else if (res.status == 201 && useUser().repoType == 'Gitee') {
 							window.$message.success(MESSAGE.uploadSuccess)
 							const href = `https://gitee.com/ysisno1/${repoInfo.repo}/raw/master/${res.data.content.path}`
 							console.log(href)
-							useContent().setContent({ content: href })
+							useContent().set({ content: href })
 							useUser().userType == 0 && useUser().visitorUpload()
 							onFinish(res)
 						} else {

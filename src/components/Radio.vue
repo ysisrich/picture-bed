@@ -23,18 +23,16 @@
     import { useI18n } from 'vue-i18n'
 
 
-    // function getChildren(option) {
-    //     const children = []
-    //     for (let i = 0; i <= option.depth; ++i) {
-    //         children.push({
-    //             label: option.label + '-' + i,
-    //             value: option.value + '-' + i,
-    //             depth: option.depth + 1,
-    //             isLeaf: option.depth === 3
-    //         })
-    //     }
-    //     return children
-    // }
+    function getChildren(option) {
+        const children = []
+        children.push({
+            label: option.label,
+            value: option.value,
+            depth: option.depth + 1,
+            isLeaf: option.depth
+        })
+        return children
+    }
 
     export default {
         name: 'Radio',
@@ -54,16 +52,23 @@
             const repoList = computed(() => useUser().repoList)
 
             const timer = setInterval(() => {
-                console.log('仓库列表', repoList.value[0])
                 if (repoList.value && repoList.value.length) {
                     repoList.value.forEach(item => {
-                        let params = {
-                            label: item.full_name,
-                            value: item.full_name,
-                            depth: 1,
-                            isLeaf: true
+                        let option = {
+                            owner: item.full_name.split('/')[0],
+                            repo: item.full_name.split('/')[1],
+                            path: '',
                         }
-                        data.options.push(params)
+                        useUser().getRepoContent(option).then(res => {
+                            let params = {
+                                label: item.full_name,
+                                value: item.full_name,
+                                depth: 1,
+                                isLeaf: !res.data.some(item => item.type === 'dir')
+                            }
+                            data.options.push(params)
+                        })
+
                     })
                     clearInterval(timer)
                 }
@@ -92,12 +97,47 @@
             // 选择子路径
             const handleLoad = (option) => {
                 console.log('optinon', option)
-                // return new Promise((resolve) => {
-                //     window.setTimeout(() => {
-                //         option.children = getChildren(option)
-                //         resolve()
-                //     }, 1000)
-                // })
+                return new Promise((resolve) => {
+                    let arr = option.value.split('/')
+                    let params = {
+                        owner: arr[0],
+                        repo: arr[1],
+                        path: arr.length > 2 && arr.splice(0, 2) && arr.join('/'),
+                    }
+                    console.log('========', params)
+                    // debugger
+                    useUser().getRepoContent(params).then(res => {
+                        option.children = []
+                        res.data.forEach(item => {
+
+
+                            if (item.type === 'dir') {
+                                let arr = (option.value + '/' + item.name).split('/')
+                                let _params = {
+                                    owner: arr[0],
+                                    repo: arr[1],
+                                    path: arr.length > 2 && arr.splice(0, 2) && arr.join('/'),
+                                }
+                                useUser().getRepoContent(_params).then(res => {
+                                    let params = {
+                                        label: item.name,
+                                        value: option.value + '/' + item.name,
+                                        depth: option.depth + 1,
+                                        isLeaf: !res.data.some(item => item.type === 'dir')
+                                    }
+                                    option.children.push(params)
+                                    resolve()
+                                })
+
+                            }
+                        })
+
+                    })
+                    // window.setTimeout(() => {
+                    //     option.children = getChildren(option)
+                    //     resolve()
+                    // }, 1000)
+                })
             }
 
             const handleUpdate = (value) => {

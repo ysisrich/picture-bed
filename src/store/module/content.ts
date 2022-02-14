@@ -24,9 +24,12 @@ export default {
 	  }
   },
   actions: {
-    setContent(params: {}) {
+    set(params: {}) {
       // @ts-ignore
       this.content = params.content;
     },
+    clear(){
+      this.content = ''
+    }
   },
 };

@@ -50,7 +50,7 @@ export default {
         let query = {
           owner: this.git.repoInfo.owner,
           repo: this.git.repoInfo.repo,
-          path: option.path
+          path: this.git.repoInfo.path ? this.git.repoInfo.path +'/' + option.path : option.path
         }
         let params = {
           message: 'Git图床提交',
@@ -107,18 +107,16 @@ export default {
     // 获取所有仓库信息
     getUserAllRepoInfo(){
       if(this.repoType === 'Github'){
-        Api.getOauthAllRepo().then(res=>{
+        Api.getOauthAllRepo({type:'public'}).then(res=>{
           if(res.status == 200){
-            console.log('所有仓库',res.data)
             this.repoList = res.data
           }
         })
       }
 
       if(this.repoType === 'Gitee'){
-        Api._getOauthAllRepo().then(res=>{
+        Api._getOauthAllRepo({type:'public'}).then(res=>{
           if(res.status == 200){
-            console.log('所有仓库',res.data)
             this.repoList = res.data
           }
         })
@@ -127,15 +125,44 @@ export default {
 
     // 确定上传仓库的路径
     handleRepoPath(option){
+      let arr = option.split('/')
       const repoInfo :object = {
-          owner: option.split('/')[0],
-          repo: option.split('/')[1],
-          path: option.split('/')[2],
+          owner: arr[0],
+          repo: arr[1],
+          path: arr.length > 2 && arr.splice(0, 2) && arr.join('/'),
       }
       console.log('repoInfo',repoInfo)
 
       this.git.repoInfo = repoInfo
     },
+    // 获取仓库下的具体内容
+    async getRepoContent(option){
+      return new Promise((resolve)=>{
+        let query = {
+          owner: option.owner,
+          repo: option.repo,
+          path: option.path || '',
+        }
+        let params = {}
+  
+        if(this.repoType === 'Github'){
+          Api.getOauthRepoDetailPathContent(params,query).then(res=>{
+            if(res.status == 200){
+              resolve(res)
+            }
+          })
+        }
+  
+        if(this.repoType === 'Gitee'){
+          Api._getOauthRepoDetailPathContent(params,query).then(res=>{
+            if(res.status == 200){
+              resolve(res)
+            }
+          })
+        }
+      })
+    },
+
     // 获取仓库详情
     async getUserRepositoryInfo() {
       return new Promise((resolve,reject)=>{

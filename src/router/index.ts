@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import routes from './router'
+import { useContent } from '@/store/index'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -11,6 +12,7 @@ router.beforeEach((to,from,next) => {
     const title:any = to.meta.title
     document.title = title
   }
+  useContent().clear()
   next()
 })
 

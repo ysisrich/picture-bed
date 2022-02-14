@@ -89,11 +89,11 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
 
   /**
  * @author: yangs
- * @query:  /repos/{owner}/{repo}/contents/{path}
+ * @query:  /repos/{owner}/{repo}/contents/{path} 
  * @params {}
  * @description: 获取存储库中文件或目录的内容
  */
-  const getFileOrDireact = (params: undefined | object, query: any) => request.get(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
+  const getOauthRepoDetailPathContent = (params: undefined | object, query: any) => request.get(`/repos/${query.owner}/${query.repo}/contents/${query.path}`, params)
 
 /**
   * @author: yangs
@@ -114,5 +114,6 @@ const getUserRepositoryInfo = (params: undefined | object, query: any) => reques
     getOauthAllRepo,
     createNewFileOrUpdateFile,
     getOauthUserInfo,
-    createOauthRepo
+    createOauthRepo,
+    getOauthRepoDetailPathContent
  }

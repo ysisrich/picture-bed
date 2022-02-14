@@ -44,7 +44,7 @@ axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
 // 请求拦截
 axios.interceptors.request.use(
   (config): AxiosRequestConfig<any> => {
-    console.log('git变化',useUser().git)
+    // console.log('git变化',useUser().git)
     const token: string = useUser().git.token;
     const auth: object = useUser().git.auth;
 
