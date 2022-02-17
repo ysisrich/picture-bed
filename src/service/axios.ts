@@ -46,7 +46,7 @@ axios.interceptors.request.use(
   (config): AxiosRequestConfig<any> => {
     // console.log('git变化',useUser().git)
     const token: string = useUser().git.token;
-    const auth: object = useUser().git.auth;
+    // const auth: object = useUser().git.auth;
 
 
     // oss

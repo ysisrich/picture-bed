@@ -23,31 +23,17 @@
           <n-button type="primary" block @click="handleLogin('token')">{{$t('login.sign_in')}}</n-button>
         </n-form>
       </n-tab-pane>
-      <!-- <n-tab-pane name="signin2" tab="GitHub Apps">
-        <n-form class="marginTop-50">
-          <n-form-item-row :label="$t('repositories')">
-            <n-space>
-              <n-radio :checked="checkedValue === 'Github'" @change="handleChange" value="Github">
-                Github
-              </n-radio>
-              <n-radio :checked="checkedValue === 'Gitee'" @change="handleChange" value="Gitee">
-                Gitee
-              </n-radio>
-            </n-space>
-          </n-form-item-row>
-          <n-form-item-row :label="$t('login.username')">
-            <n-input />
-          </n-form-item-row>
-          <n-form-item-row :label="$t('login.password')">
-            <n-input />
-          </n-form-item-row>
-          <n-form-item-row :label="$t('login.expirationTime')">
-            <n-select v-model:value="expirationTime" :options="options" />
-          </n-form-item-row>
-        </n-form>
-        <n-button type="primary" block @click="handleLogin()">{{$t('login.sign_in')}}</n-button>
+      <n-tab-pane name="signin2" tab="OAuth Apps" class="oauth">
+        <div class="oauth_icon">
+          <n-space>
+            <n-icon size="80" :depth="3">
+              <LogoGithubIcon @click="ToOAuth('Github')" />
+            </n-icon>
+            <img @click="ToOAuth('Gitee')" class="gitee" src="@/assets/img/gitee.png" alt="">
+          </n-space>
+        </div>
       </n-tab-pane>
-      <n-tab-pane name="signin3" :tab="$t('login.username') +'/'+ $t('login.password')">
+      <!--  <n-tab-pane name="signin3" :tab="$t('login.username') +'/'+ $t('login.password')">
         <n-form class="marginTop-50">
           <n-form-item-row :label="$t('repositories')">
             <n-space>
@@ -80,10 +66,16 @@
   import { useUser } from '@/store/index'
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
+  import {
+    LogoGithub as LogoGithubIcon,
+  } from '@vicons/ionicons5'
+
 
   export default defineComponent({
 
-
+    components: {
+      LogoGithubIcon
+    },
     setup() {
 
       const { t, locale } = useI18n()
@@ -144,10 +136,28 @@
         })
       }
 
+      const ToOAuth = (repoType) => {
+        useUser().changeRepoType(repoType)
+        const client_id = useUser().git.OAuth.client_id
+        const client_secret = useUser().git.OAuth.client_secret
+        const redirect_uri = import.meta.env.VITE_APP_WEB_URL
+
+        let path = ''
+        if (repoType == 'Github') {
+          path = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=user&state=1s12111s12121`
+        } else {
+          path = `https://gitee.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`
+        }
+
+        console.log(path)
+        location.href = path
+      }
+
       return {
         ...toRefs(data),
         handleChange,
-        handleLogin
+        handleLogin,
+        ToOAuth
       };
     },
   });
@@ -164,6 +174,18 @@
 
     ::v-deep(.n-form-item-blank) {
       text-align: left;
+    }
+
+    .oauth_icon {
+      display: flex;
+      justify-content: space-around;
+      padding: 100px;
+      cursor: pointer;
+    }
+
+    .gitee {
+      width: 80px;
+      height: 80px;
     }
   }
 </style>

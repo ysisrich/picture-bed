@@ -67,17 +67,17 @@
 
 
       onMounted(() => {
-        if (userType && userType.value == 0) {
-          setTimeout(() => {
+        setTimeout(() => {
+          if (userType && userType.value == 1) {
+            useUser().getLocalstorageToken()
+          } else {
             window.$notification.success({
               title: t('message.title1'),
               content: t('message.content', { time: experienceNumber.value }),
               duration: 10000
             })
-          })
-        } else {
-          useUser().getLocalstorageToken()
-        }
+          }
+        }, 1500)
       })
 
 
