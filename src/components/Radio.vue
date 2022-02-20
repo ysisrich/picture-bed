@@ -9,9 +9,9 @@
 
         <n-space v-if="show">
             <n-text style="line-height: 32px;">{{$t('repositoriesPath')}}：</n-text>
-            <n-cascader style="width: 500px;" v-model:value="path" placeholder="选择你的仓库路径" :options="options"
-                check-strategy="all" :show-path="true" remote :on-load="handleLoad" :on-update:value="handleUpdate"
-                clearable />
+            <n-cascader style="width: 500px;" v-model:value="path" :placeholder="$t('selectRepositories')"
+                :options="options" check-strategy="all" :show-path="true" remote :on-load="handleLoad"
+                :on-update:value="handleUpdate" clearable />
         </n-space>
     </n-space>
 </template>

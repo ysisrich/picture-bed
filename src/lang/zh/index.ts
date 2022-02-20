@@ -27,6 +27,7 @@ export default {
     attention:'注意',
     repositories:'仓库类型',
     repositoriesPath:'仓库路径',
+    selectRepositories:'选择你的仓库路径',
     clickOrDragToUpload:'点击或者拖动文件到该区域来上传',
     pictureType:'支持的图片格式有png、jpg、jpeg、gif、ico等，单张图片大小不能超过50M',
     upyun:'又拍云',
@@ -46,7 +47,8 @@ export default {
         forbidRightKey:'禁止右键',
         forbidF12:'禁止F12',
         emptyToken:'token为空',
-        uploadPathError:'上传路径为空'
+        uploadPathError:'上传路径为空',
+        loadTimeout:'加载超时，请刷新重试...'
     },
     copy:'复制',
     // 登录
@@ -55,7 +57,9 @@ export default {
         username:'用户名',
         password:'密码',
         expirationTime:'过期时间',
-        loginSuccess:'登录成功！'
+        wait:'稍等...',
+        loginSuccess:'登录成功！',
+        exitLoginSuccess:'退出成功！',
     },
 
     // 错误响应

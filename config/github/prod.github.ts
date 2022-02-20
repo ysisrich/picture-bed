@@ -8,13 +8,20 @@
 const API_BaseUrl:string = 'https://api.github.com';
 
 // 登录方式1 token 令牌 上传需要header携带认证
-const token:string = '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';
+const token:string = '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';
 
 // 登录方式2 用户名密码
-const auth:object = {
+const account:object = {
     username: "",
-    password: "",
+    password: ""
 }
+
+// 登录方式3 应用授权 
+const OAuth:object = {
+    client_id: "c64ad48e25fedf796b32",
+    client_secret: "c5f9959dd688e5ba8a6f07d9114a53e40028fc62"
+}
+
  // 登录用户信息
 const userInfo:object = {}
 
@@ -31,7 +38,8 @@ const repoInfo:object = {
 export default {
     API_BaseUrl,
     token,
-    auth,
+    account,
+    OAuth,
     userInfo,
     repoInfo,
 }

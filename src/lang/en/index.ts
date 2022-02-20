@@ -26,6 +26,7 @@ export default {
     attention:'Attention',
     repositories:'Repositories Type',
     repositoriesPath:'Repositories Path',
+    selectRepositories:'Select your repositories path',
     clickOrDragToUpload:'Click or drag the file to the area to upload',
     pictureType:'The supported image formats include PNG, JPG, JPEG, GIF, and ICO. The size of a single image cannot exceed 50M',
     upyun:'Upyun',
@@ -45,7 +46,8 @@ export default {
         forbidRightKey:'No right click',
         forbidF12:'No F12',
         emptyToken:'Empty Token',
-        uploadPathError:'Empty Upload Path'
+        uploadPathError:'Empty Upload Path',
+        loadTimeout:'Load timeout,Please refresh...'
     },
 
     copy:'copy',
@@ -55,7 +57,9 @@ export default {
         username:'Username',
         password:'Password',
         expirationTime:'Expiration Time',
-        loginSuccess:'Login successful!'
+        wait:'wait a moment...',
+        loginSuccess:'Login successful!',
+        exitLoginSuccess:'ExitLogin Success!',
     },
 
     // 错误响应

@@ -260,6 +260,7 @@ export default {
       Cookie.clearCookie('token')
       this.userType = 0
       this.git.userInfo = {}
+      window.$message.success(i18n.global.t('login.exitLoginSuccess'))
     }
   },
 };

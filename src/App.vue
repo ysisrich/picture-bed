@@ -66,20 +66,6 @@
       const NODE_ENV = import.meta.env.VITE_NODE_ENV
 
 
-      onMounted(() => {
-        setTimeout(() => {
-          if (userType && userType.value == 1) {
-            useUser().getLocalstorageToken()
-          } else {
-            window.$notification.success({
-              title: t('message.title1'),
-              content: t('message.content', { time: experienceNumber.value }),
-              duration: 10000
-            })
-          }
-        }, 1500)
-      })
-
 
 
       // 禁止f12  禁止右键
