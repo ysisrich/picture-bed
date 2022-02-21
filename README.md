@@ -57,6 +57,7 @@
 
 <div style="dispaly:flex;justify-content: center;" >
     <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_5.png" />
+    <img style="width:49%;" src="https://cdn.jsdelivr.net/gh/ysisrich/Assets/ibed/ibed_6.png" />
 </div>
 
 
