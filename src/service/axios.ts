@@ -155,7 +155,7 @@ axios.interceptors.response.use(
 	if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 ) {
 		// eslint-disable-next-line
 		$message.error(errorCode['1011']);
-		return Promise.reject('请检查网络再重新连接')
+		return Promise.reject(errorCode['1011'])
 	}
     const status: number = error.response.status;
     if (status) {

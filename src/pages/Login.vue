@@ -20,24 +20,19 @@
   import { useRouter } from 'vue-router'
   import Cookie from "@/utils/Cookie";
   import i18n from '@/lang/index'
+  import { useI18n } from 'vue-i18n'
   import { Base64 } from 'js-base64';
   import _axios from 'axios'
 
 
   const router = useRouter()
+  const { t, locale } = useI18n()
   let show = ref(false)
 
 
 
   if (location.search && location.search.includes('code')) {
     show.value = true
-    setTimeout(() => {
-      window.$notification.error({
-        title: t('message.loadTimeout'),
-        duration: 10000
-      })
-      show.value = false
-    }, 10000)
     window.$loadingBar.start();
     const code = location.search.substr(1).split('&')[0].split('=')[1]
     let state = ''
@@ -54,19 +49,7 @@
       // path = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&redirect_uri=${redirect_uri}&state=${state}`
       path = 'https://nav.yangsong.cool/ibed/oauth'
       console.log(path)
-      // _axios.post(path, {
-      //     // client_id, client_secret, redirect_uri, code
-      // }, {
-      //     headers: {
-      //         'accept': '*/*',
-      //         'content-type': 'application/json',
-      //         'access-control-request-headers': 'authorization'
-      //     },
-      //     request: {
-
-      //     },
-      //     withCredentials: false,
-      // }).then(res => {
+      // _axios.post(path).then(res => {
       //     if (res.status == 200) {
       //         Cookie.setCookie('token', Base64.encode(res.data.access_token) + '=', res.data.expires_in / 3600 / 24 || 1)
       //         useUser().userType = 1
@@ -81,8 +64,10 @@
       }).then(res => {
         if (res.status == 200) {
           console.log('res', res.data)
-          if (res.error) {
-            window.$message.error(res.error_description)
+          if (res.data.error) {
+            window.$loadingBar.error();
+            window.$message.error(res.data.error_description)
+            show.value = false
           } else {
             window.$loadingBar.finish();
             Cookie.setCookie('token', Base64.encode(res.data.access_token) + '=', res.data.expires_in / 3600 / 24 || 1)
@@ -98,6 +83,11 @@
       }).catch(
         err => {
           console.log(err)
+          window.$notification.error({
+            content: t('message.loadTimeout'),
+            duration: 10000
+          })
+          show.value = false
           window.$loadingBar.error();
         }
       )
@@ -107,15 +97,31 @@
       console.log(path)
       _axios.post(path).then(res => {
         if (res.status == 200) {
-          window.$loadingBar.finish();
-          Cookie.setCookie('token', Base64.encode(res.data.access_token) + '=', res.data.expires_in / 3600 / 24 || 1)
-          useUser().userType = 1
-          window.$message.success(i18n.global.t('login.loginSuccess'))
-          useUser().getLocalstorageToken()
-          show.value = false
-          setTimeout(() => router.replace('/'), 1500)
+          if (res.data.error) {
+            window.$loadingBar.error();
+            window.$message.error(res.data.error_description)
+            show.value = false
+          } else {
+            window.$loadingBar.finish();
+            Cookie.setCookie('token', Base64.encode(res.data.access_token) + '=', res.data.expires_in / 3600 / 24 || 1)
+            useUser().userType = 1
+            window.$message.success(i18n.global.t('login.loginSuccess'))
+            useUser().getLocalstorageToken()
+            show.value = false
+            setTimeout(() => router.replace('/'), 1500)
+          }
         }
-      })
+      }).catch(
+        err => {
+          console.log(err)
+          window.$notification.error({
+            content: t('message.loadTimeout'),
+            duration: 10000
+          })
+          show.value = false
+          window.$loadingBar.error();
+        }
+      )
 
     }
 
